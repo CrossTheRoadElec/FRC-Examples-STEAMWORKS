@@ -247,13 +247,11 @@ public class MotionProfileExample {
 			/* better log it so we know about it */
 			instrumentation.OnUnderrun();
 			/*
-			 * clear the error. This is what seperates "has underrun" from
-			 * "is underrun", because the former is cleared by the application.
-			 * That way, we never miss logging it.
+			 * clear the error. This flag does not auto clear, this way 
+			 * we never miss logging it.
 			 */
 			_talon.clearMotionProfileHasUnderrun();
 		}
-
 		/*
 		 * just in case we are interrupting another MP and there is still buffer
 		 * points in memory, clear it.
@@ -263,18 +261,13 @@ public class MotionProfileExample {
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = 0; i < totalCnt; ++i) {
 			/* for each point, fill our structure and pass it to API */
-			point.position = profile[i][0]; /*
-											 * copy the position (rotations), velocity (RPM), and
-											 * time from current row
-											 */
+			point.position = profile[i][0];
 			point.velocity = profile[i][1];
 			point.timeDurMs = (int) profile[i][2];
 			point.profileSlotSelect = 0; /* which set of gains would you like to use? */
-			point.velocityOnly = false; /*
-										 * set true to not do any position
+			point.velocityOnly = false; /* set true to not do any position
 										 * servo, just velocity feedforward
 										 */
-
 			point.zeroPos = false;
 			if (i == 0)
 				point.zeroPos = true; /* set this to true on the first point */
