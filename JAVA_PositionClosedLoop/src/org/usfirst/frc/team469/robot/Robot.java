@@ -11,7 +11,7 @@
  * flip the boolean input to the reverseSensor() call below.
  *
  * Once you've ensured your feedback device is in-phase with the motor,
- * use the button shortcuts to servo to target velocity.  
+ * use the button shortcuts to servo to target position.  
  *
  * Tweak the PID gains accordingly.
  */
@@ -30,6 +30,9 @@ public class Robot extends IterativeRobot {
 	Joystick _joy = new Joystick(0);	
 	StringBuilder _sb = new StringBuilder();
 	int _loops = 0;
+	boolean _lastButton1 = false;
+	/** save the target position to servo to */
+	double targetPositionRotations;
 	
 	public void robotInit() {
 		/* lets grab the 360 degree position of the MagEncoder's absolute position */
@@ -66,33 +69,42 @@ public class Robot extends IterativeRobot {
     	/* get gamepad axis */
     	double leftYstick = _joy.getAxis(AxisType.kY);
     	double motorOutput = _talon.getOutputVoltage() / _talon.getBusVoltage();
+    	boolean button1 = _joy.getRawButton(1);
+    	boolean button2 = _joy.getRawButton(2);
     	/* prepare line to print */
 		_sb.append("\tout:");
 		_sb.append(motorOutput);
-        _sb.append("\tspd:");
-        _sb.append(_talon.getSpeed() );
-        
-        if(_joy.getRawButton(1)){
-        	/* Speed mode */
-        	double targetPositionRotations = leftYstick * 50.0; /* 50 Rotations in either direction */
+        _sb.append("\tpos:");
+        _sb.append(_talon.getPosition() );
+        /* on button1 press enter closed-loop mode on target position */
+        if(!_lastButton1 && button1) {
+        	/* Position mode - button just pressed */
+        	targetPositionRotations = leftYstick * 50.0; /* 50 Rotations in either direction */
         	_talon.changeControlMode(TalonControlMode.Position);
-        	_talon.set(targetPositionRotations); /* 50 RPM in either direction */
+        	_talon.set(targetPositionRotations); /* 50 rotations in either direction */
 
-        	/* append more signals to print when in speed mode. */
-            _sb.append("\terrNative:");
-            _sb.append(_talon.getClosedLoopError());
-            _sb.append("\ttrg:");
-            _sb.append(targetPositionRotations);
-        } else {
+        }
+        /* on button2 just straight drive */
+        if(button2) {
         	/* Percent voltage mode */
         	_talon.changeControlMode(TalonControlMode.PercentVbus);
         	_talon.set(leftYstick);
         }
-
+        /* if Talon is in position closed-loop, print some more info */
+        if( _talon.getControlMode() == TalonControlMode.Position) {
+        	/* append more signals to print when in speed mode. */
+        	_sb.append("\terrNative:");
+        	_sb.append(_talon.getClosedLoopError());
+        	_sb.append("\ttrg:");
+        	_sb.append(targetPositionRotations);
+        }
+        /* print every ten loops, printing too much too fast is generally bad for performance */ 
         if(++_loops >= 10) {
         	_loops = 0;
         	System.out.println(_sb.toString());
         }
         _sb.setLength(0);
+        /* save button state for on press detect */
+        _lastButton1 = button1;
     }
 }
