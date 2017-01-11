@@ -12,6 +12,7 @@
  */
 #include "WPILib.h"
 #include "PigeonImu.h"
+#include "CANTalon.h"
 class Robot: public IterativeRobot {
 	/* robot peripherals */
 	CANTalon * _leftFront;

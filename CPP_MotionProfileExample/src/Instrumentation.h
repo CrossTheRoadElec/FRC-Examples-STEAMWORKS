@@ -26,6 +26,7 @@
  */
 #include <iomanip> // using setw() for printing
 #include "WPILib.h" // CANTalon
+#include "CANTalon.h"
 class instrumentation {
 public:
 	static void OnNoProgress()

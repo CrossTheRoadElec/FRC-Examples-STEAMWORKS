@@ -23,6 +23,7 @@
 #include <Instrumentation.h>
 #include "WPILib.h"
 #include "MotionProfileExample.h"
+#include "CANTalon.h"
 
 class Robot: public IterativeRobot
 {

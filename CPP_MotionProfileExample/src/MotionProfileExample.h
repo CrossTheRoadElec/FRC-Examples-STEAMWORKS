@@ -26,6 +26,7 @@
 #include <Instrumentation.h>
 #include <MotionProfile.h>
 #include "WPILib.h"
+#include "CANTalon.h"
 
 class MotionProfileExample
 {

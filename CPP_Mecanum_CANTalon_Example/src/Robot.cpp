@@ -1,4 +1,5 @@
 #include "WPILib.h"
+#include "CANTalon.h"
 class MecanumDefaultCode : public IterativeRobot
 {
 	CANTalon lf; /*left front */
@@ -8,7 +9,7 @@ class MecanumDefaultCode : public IterativeRobot
 public:
 	RobotDrive *m_robotDrive;		// RobotDrive object using PWM 1-4 for drive motors
 	Joystick *m_driveStick;			// Joystick object on USB port 1 (mecanum drive)public:
-	Gyro gyro;
+	AnalogGyro gyro;
 	/**
 	 * Constructor for this "MecanumDefaultCode" Class.
 	 */

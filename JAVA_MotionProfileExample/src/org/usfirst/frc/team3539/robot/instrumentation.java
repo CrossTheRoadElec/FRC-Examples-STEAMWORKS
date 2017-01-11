@@ -23,7 +23,7 @@
  * 
  */
 package org.usfirst.frc.team3539.robot;
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 public class instrumentation {
 

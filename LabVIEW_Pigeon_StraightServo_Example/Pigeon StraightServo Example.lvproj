@@ -156,25 +156,30 @@ AddOutputFilter chunkFilter
 				<Item Name="Convert String to NT String Array Buffer.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/Convert String to NT String Array Buffer.vi"/>
 				<Item Name="Convert String to NT String Buffer.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/Convert String to NT String Buffer.vi"/>
 				<Item Name="Create Actual Table Name.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/Create Actual Table Name.vi"/>
-				<Item Name="CTRE_CAN_GetFourParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_CAN_GetFourParam16.vi"/>
-				<Item Name="CTRE_CAN_GetThreeParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_CAN_GetThreeParam16.vi"/>
-				<Item Name="CTRE_CAN_GetThreeParam20.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_CAN_GetThreeParam20.vi"/>
-				<Item Name="CTRE_CAN_GetTwoParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_CAN_GetTwoParam16.vi"/>
-				<Item Name="CTRE_PigeonIMU_CalibrationMode.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_CalibrationMode.ctl"/>
-				<Item Name="CTRE_PigeonIMU_ConnectionType.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_ConnectionType.ctl"/>
-				<Item Name="CTRE_PigeonIMU_DeviceRef.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_DeviceRef.ctl"/>
-				<Item Name="CTRE_PigeonIMU_Global.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_Global.vi"/>
-				<Item Name="CTRE_PigeonIMU_GlobalControl.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_GlobalControl.ctl"/>
-				<Item Name="CTRE_PigeonIMU_GlobalOps.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_GlobalOps.ctl"/>
-				<Item Name="CTRE_PigeonIMU_GlobalStatus.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_GlobalStatus.ctl"/>
-				<Item Name="CTRE_PigeonIMU_MessageIDs.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_MessageIDs.ctl"/>
-				<Item Name="CTRE_PigeonIMU_Open_CAN.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_Open_CAN.vi"/>
-				<Item Name="CTRE_PigeonIMU_Open_TalonSRX.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_Open_TalonSRX.vi"/>
-				<Item Name="CTRE_PigeonIMU_Params.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_Params.ctl"/>
-				<Item Name="CTRE_PigeonIMU_PigeonState.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_PigeonState.ctl"/>
-				<Item Name="CTRE_PigeonIMU_Receive.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_Receive.vi"/>
-				<Item Name="CTRE_PigeonIMU_SetParameter.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_SetParameter.vi"/>
-				<Item Name="CTRE_PigeonIMU_TareType.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon/CTRE_PigeonIMU_TareType.ctl"/>
+				<Item Name="CTRE_CAN_GetFourParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_CAN_GetFourParam16.vi"/>
+				<Item Name="CTRE_CAN_GetThreeParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_CAN_GetThreeParam16.vi"/>
+				<Item Name="CTRE_CAN_GetThreeParam20.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_CAN_GetThreeParam20.vi"/>
+				<Item Name="CTRE_CAN_GetTwoParam16.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_CAN_GetTwoParam16.vi"/>
+				<Item Name="CTRE_PigeonIMU_CalibrationMode.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_CalibrationMode.ctl"/>
+				<Item Name="CTRE_PigeonIMU_ConnectionType.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_ConnectionType.ctl"/>
+				<Item Name="CTRE_PigeonIMU_DeviceRef.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_DeviceRef.ctl"/>
+				<Item Name="CTRE_PigeonIMU_GetAll.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_GetAll.vi"/>
+				<Item Name="CTRE_PigeonIMU_Global.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Global.vi"/>
+				<Item Name="CTRE_PigeonIMU_GlobalControl.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_GlobalControl.ctl"/>
+				<Item Name="CTRE_PigeonIMU_GlobalOps.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_GlobalOps.ctl"/>
+				<Item Name="CTRE_PigeonIMU_GlobalStatus.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_GlobalStatus.ctl"/>
+				<Item Name="CTRE_PigeonIMU_MessageIDs.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_MessageIDs.ctl"/>
+				<Item Name="CTRE_PigeonIMU_Open.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Open.vi"/>
+				<Item Name="CTRE_PigeonIMU_Open_CAN.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Open_CAN.vi"/>
+				<Item Name="CTRE_PigeonIMU_Open_TalonSRX.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Open_TalonSRX.vi"/>
+				<Item Name="CTRE_PigeonIMU_Params.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Params.ctl"/>
+				<Item Name="CTRE_PigeonIMU_PigeonState.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_PigeonState.ctl"/>
+				<Item Name="CTRE_PigeonIMU_Receive.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_Receive.vi"/>
+				<Item Name="CTRE_PigeonIMU_RefNumRegistryGet.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_RefNumRegistryGet.vi"/>
+				<Item Name="CTRE_PigeonIMU_RefNumRegistrySet.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_RefNumRegistrySet.vi"/>
+				<Item Name="CTRE_PigeonIMU_SetFusedHeading.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_SetFusedHeading.vi"/>
+				<Item Name="CTRE_PigeonIMU_SetParameter.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_SetParameter.vi"/>
+				<Item Name="CTRE_PigeonIMU_TareType.ctl" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/ThirdParty/Sensors/Pigeon IMU/CTRE_PigeonIMU_TareType.ctl"/>
 				<Item Name="Decode String Array.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/Decode String Array.vi"/>
 				<Item Name="Dflt Data Dir.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/file.llb/Dflt Data Dir.vi"/>
 				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
@@ -532,11 +537,6 @@ AddOutputFilter chunkFilter
 				<Item Name="WPI_UtilitiesTimebaseConstants.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/WPI/Utilities/WPI_UtilitiesTimebaseConstants.vi"/>
 				<Item Name="Write Value Core.vi" Type="VI" URL="/&lt;vilib&gt;/Rock Robotics/Network Tables/Write Value Core.vi"/>
 			</Item>
-			<Item Name="CTRE_PigeonIMU_GetAll.vi" Type="VI" URL="../Pigeon IMU/CTRE_PigeonIMU_GetAll.vi"/>
-			<Item Name="CTRE_PigeonIMU_Open.vi" Type="VI" URL="../Pigeon IMU/CTRE_PigeonIMU_Open.vi"/>
-			<Item Name="CTRE_PigeonIMU_RefNumRegistryGet.vi" Type="VI" URL="../Pigeon IMU/CTRE_PigeonIMU_RefNumRegistryGet.vi"/>
-			<Item Name="CTRE_PigeonIMU_RefNumRegistrySet.vi" Type="VI" URL="../Pigeon IMU/CTRE_PigeonIMU_RefNumRegistrySet.vi"/>
-			<Item Name="CTRE_PigeonIMU_SetFusedHeading.vi" Type="VI" URL="../Pigeon IMU/CTRE_PigeonIMU_SetFusedHeading.vi"/>
 			<Item Name="FRC_NetworkCommunication.dll" Type="Document" URL="FRC_NetworkCommunication.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
