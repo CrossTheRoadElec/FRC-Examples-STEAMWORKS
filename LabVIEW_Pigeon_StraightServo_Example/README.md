@@ -35,7 +35,7 @@ In the Information Options, the "Local destination directory" must be changed to
 The portion of the filepath before "FRC-Examples" (here shown as "D:\CTR\FRC") must be changed to that of your local machine.
 
 If you downloaded and unzipped the examples in your downloads folder, the entire path would look like:
-"C:\Users\[User]\Downloads\FRC-Examples\[Example Name]\Builds", where [User] is your username and [Example Name] is the name of the example folder.
+"C:\Users\\[User]\Downloads\FRC-Examples\\[Example Name]\Builds", where [User] is your username and [Example Name] is the name of the example folder.
 
 ![](https://github.com/CrossTheRoadElec/FRC-Examples/blob/master/README_Images/LV_Build_Properties.png)
 
