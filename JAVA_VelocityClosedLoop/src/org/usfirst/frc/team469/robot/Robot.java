@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 
         /* set the peak and nominal outputs, 12V means full */
         _talon.configNominalOutputVoltage(+0.0f, -0.0f);
-        _talon.configPeakOutputVoltage(+12.0f, 0.0f);
+        _talon.configPeakOutputVoltage(+12.0f, -12.0f);
         /* set closed loop gains in slot0 */
         _talon.setProfile(0);
         _talon.setF(0.1097);
