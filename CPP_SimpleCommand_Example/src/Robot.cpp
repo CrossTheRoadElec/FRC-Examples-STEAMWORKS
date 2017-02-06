@@ -14,6 +14,9 @@
 class Robot: public frc::IterativeRobot {
 public:
 	void RobotInit() override {
+		/* [CTRE] Invoke the late initialization routines for our subsystems */
+		CommandBase::exampleSubsystem.get()->InitHardware();
+
 		chooser.AddDefault("Default Auto", new ExampleCommand());
 		// chooser.AddObject("My Auto", new MyAutoCommand());
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
@@ -76,6 +79,12 @@ public:
 	void TeleopPeriodic() override {
 		frc::Scheduler::GetInstance()->Run();
 
+		/*
+		 * [CTRE]
+		 * Subsystem typically are called from commands, but as a simple example
+		 * set our output to a hardcoded value in teleop loop.
+		 */
+		CommandBase::exampleSubsystem.get()->SetOutputOfSomeKind(+0.10f);
 	}
 
 	void TestPeriodic() override {

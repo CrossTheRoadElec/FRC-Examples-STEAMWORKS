@@ -13,6 +13,8 @@
 // constexpr int LEFTMOTOR = 1;
 // constexpr int RIGHTMOTOR = 2;
 
+constexpr int MY_TALON_SRX_DEVICEID	=	0; /* [CTRE] DeviceID should match the web-based config */
+
 // If you are using multiple modules, make sure to define both the port
 // number and the module. For example you with a rangefinder:
 // constexpr int RANGE_FINDER_PORT = 1;
