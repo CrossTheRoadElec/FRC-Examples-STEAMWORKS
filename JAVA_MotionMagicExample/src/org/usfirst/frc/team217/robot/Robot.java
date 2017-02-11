@@ -25,14 +25,15 @@ public class Robot extends IterativeRobot {
 		/* set the peak and nominal outputs, 12V means full */
 		_talon.configNominalOutputVoltage(+0.0f, -0.0f);
 		_talon.configPeakOutputVoltage(+12.0f, -12.0f);
-		/* set closed loop gains in slot0 */
+		/* set closed loop gains in slot0 - see documentation */
 		_talon.setProfile(0);
-		_talon.setF(0.2481);
-		_talon.setP(0.0731);
+		_talon.setF(0);
+		_talon.setP(0);
 		_talon.setI(0);
 		_talon.setD(0);
-		_talon.setMotionMagicCruiseVelocity(453); /* 453 RPM */
-		_talon.setMotionMagicAcceleration(453);	 /* 453 RPM per second */
+		/* set acceleration and vcruise velocity - see documentation */
+		_talon.setMotionMagicCruiseVelocity(0);
+		_talon.setMotionMagicAcceleration(0);
 	}
 
 	/**
