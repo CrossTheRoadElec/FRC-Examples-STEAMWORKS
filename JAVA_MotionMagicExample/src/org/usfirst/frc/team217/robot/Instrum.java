@@ -15,8 +15,9 @@ public class Instrum {
     	SmartDashboard.putNumber("AppliedThrottle", (tal.getOutputVoltage()/tal.getBusVoltage())*1023);
     	SmartDashboard.putNumber("ClosedLoopError", tal.getClosedLoopError());
     	if (tal.getControlMode() == TalonControlMode.MotionMagic) {
-    		SmartDashboard.putNumber("ActTrajVelocity", tal.getMotionMagicActTrajVelocity());
-    		SmartDashboard.putNumber("ActTrajPosition", tal.getMotionMagicActTrajPosition());
+			//These API calls will be added in our next release.
+    		//SmartDashboard.putNumber("ActTrajVelocity", tal.getMotionMagicActTrajVelocity());
+    		//SmartDashboard.putNumber("ActTrajPosition", tal.getMotionMagicActTrajPosition());
     	}
     	/* periodically print to console */
         if(++_loops >= 10) {
