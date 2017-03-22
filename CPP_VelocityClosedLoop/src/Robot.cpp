@@ -52,7 +52,7 @@ private:
 		/* prepare line to print */
 		_sb.append("\tout:");
 		_sb.append(std::to_string(motorOutput));
-		_sb.append("\tpos:");
+		_sb.append("\tspd:");
 		_sb.append(std::to_string(_talon->GetSpeed()));
 		/* while button1 is held down, closed-loop on target velocity */
 		if (_joy->GetRawButton(1)) {
