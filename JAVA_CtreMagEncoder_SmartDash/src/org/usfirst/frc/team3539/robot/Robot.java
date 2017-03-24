@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 			/* speed up network tables, this is a test project so eat up all 
 			 * of the network possible for the purpose of this test.
 			 */
-			NetworkTable.setUpdateRate(0.001);
+			NetworkTable.setUpdateRate(0.010); /* this suggests each time unit is 10ms in the plot */
 			while (true) {
 				/* yield for a ms or so - this is not meant to be accurate */
 				try { Thread.sleep(1); } catch (Exception e) { }
