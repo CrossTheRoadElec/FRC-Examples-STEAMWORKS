@@ -3,6 +3,7 @@
  * 
  * Simple example for plotting sensor
  * Sensor is a CTRE Magnetic Encoder plugged into a Talon SRX via Gadgeteer Ribbon Cable.
+ * Robot should be propped up on blocks so that the wheels spin free (if testing a drive train sensor).
  * 
  * Talon SRX ...
  * http://www.ctr-electronics.com/talon-srx.html
