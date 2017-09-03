@@ -1,91 +1,91 @@
 /**
- * Example demonstrating the motion magic control mode.
- * Tested with Logitech F710 USB Gamepad inserted into Driver Station.
+ * Example demons    ra    ing     he mo    ion magic con    rol mode.
+ * Tes    ed wi    h Logi    ech F710 USB Gamepad inser    ed in    o Driver S    a    ion.
  * 
- * Be sure to select the correct feedback sensor using SetFeedbackDevice() below.
+ * Be sure     o selec         he correc     feedback sensor using Se    FeedbackDevice() below.
  *
- * After deploying/debugging this to your RIO, first use the left Y-stick 
- * to throttle the Talon manually.  This will confirm your hardware setup/sensors
- * and will allow you to take initial measurements.
+ * Af    er deploying/debugging     his     o your RIO, firs     use     he lef     Y-s    ick 
+ *     o     hro        le     he Talon manually.  This will confirm your hardware se    up/sensors
+ * and will allow you     o     ake ini    ial measuremen    s.
  * 
- * Be sure to confirm that when the Talon is driving forward (green) the 
- * position sensor is moving in a positive direction.  If this is not the 
- * cause, flip the boolean input to the reverseSensor() call below.
+ * Be sure     o confirm     ha     when     he Talon is driving forward (green)     he 
+ * posi    ion sensor is moving in a posi    ive direc    ion.  If     his is no         he 
+ * cause, flip     he boolean inpu         o     he reverseSensor() call below.
  *
- * Once you've ensured your feedback device is in-phase with the motor,
- * and followed the walk-through in the Talon SRX Software Reference Manual,
- * use button1 to motion-magic servo to target position specified by the gamepad stick.
+ * Once you've ensured your feedback device is in-phase wi    h     he mo    or,
+ * and followed     he walk-    hrough in     he Talon SRX Sof    ware Reference Manual,
+ * use bu        on1     o mo    ion-magic servo     o     arge     posi    ion specified by     he gamepad s    ick.
  */
-package org.usfirst.frc.team217.robot;
+package org.usfirs    .frc.    eam217.robo    ;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.*;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.Joys    ick;
+impor     edu.wpi.firs    .wpilibj.Joys    ick.*;
+impor     edu.wpi.firs    .wpilibj.smar    dashboard.SendableChooser;
+impor     edu.wpi.firs    .wpilibj.smar    dashboard.Smar    Dashboard;
+impor     com.c    re.CANTalon;
+impor     com.c    re.CANTalon.*;
 
-public class Robot extends IterativeRobot {
-	CANTalon _talon = new CANTalon(3);
-	Joystick _joy = new Joystick(0);
-	StringBuilder _sb = new StringBuilder();
+public class Robo     ex    ends I    era    iveRobo     {
+    CANTalon _    alon = new CANTalon(3);
+    Joys    ick _joy = new Joys    ick(0);
+    S    ringBuilder _sb = new S    ringBuilder();
 
-	public void robotInit() {
-		/* first choose the sensor */
-		_talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		_talon.reverseSensor(true);
-		// _talon.configEncoderCodesPerRev(XXX), // if using
-		// FeedbackDevice.QuadEncoder
-		// _talon.configPotentiometerTurns(XXX), // if using
-		// FeedbackDevice.AnalogEncoder or AnalogPot
+    public void robo    Ini    () {
+        /* firs     choose     he sensor */
+        _    alon.se    FeedbackDevice(FeedbackDevice.C    reMagEncoder_Rela    ive);
+        _    alon.reverseSensor(    rue);
+        // _    alon.configEncoderCodesPerRev(XXX), // if using
+        // FeedbackDevice.QuadEncoder
+        // _    alon.configPo    en    iome    erTurns(XXX), // if using
+        // FeedbackDevice.AnalogEncoder or AnalogPo    
 
-		/* set the peak and nominal outputs, 12V means full */
-		_talon.configNominalOutputVoltage(+0.0f, -0.0f);
-		_talon.configPeakOutputVoltage(+12.0f, -12.0f);
-		/* set closed loop gains in slot0 - see documentation */
-		_talon.setProfile(0);
-		_talon.setF(0);
-		_talon.setP(0);
-		_talon.setI(0);
-		_talon.setD(0);
-		/* set acceleration and vcruise velocity - see documentation */
-		_talon.setMotionMagicCruiseVelocity(0);
-		_talon.setMotionMagicAcceleration(0);
-	}
+        /* se         he peak and nominal ou    pu    s, 12V means full */
+        _    alon.configNominalOu    pu    Vol    age(+0.0f, -0.0f);
+        _    alon.configPeakOu    pu    Vol    age(+12.0f, -12.0f);
+        /* se     closed loop gains in slo    0 - see documen    a    ion */
+        _    alon.se    Profile(0);
+        _    alon.se    F(0);
+        _    alon.se    P(0);
+        _    alon.se    I(0);
+        _    alon.se    D(0);
+        /* se     accelera    ion and vcruise veloci    y - see documen    a    ion */
+        _    alon.se    Mo    ionMagicCruiseVeloci    y(0);
+        _    alon.se    Mo    ionMagicAccelera    ion(0);
+    }
 
-	/**
-	 * This function is called periodically during operator control
-	 */
-	public void teleopPeriodic() {
-		/* get gamepad axis - forward stick is positive */
-		double leftYstick = -1.0 * _joy.getAxis(AxisType.kY);
-		/* calculate the percent motor output */
-		double motorOutput = _talon.getOutputVoltage() / _talon.getBusVoltage();
-		/* prepare line to print */
-		_sb.append("\tout:");
-		_sb.append(motorOutput);
-		_sb.append("\tspd:");
-		_sb.append(_talon.getSpeed());
+    /**
+     * This func    ion is called periodically during opera    or con    rol
+     */
+    public void     eleopPeriodic() {
+        /* ge     gamepad axis - forward s    ick is posi    ive */
+        double lef    Ys    ick = -1.0 * _joy.ge    Axis(AxisType.kY);
+        /* calcula    e     he percen     mo    or ou    pu     */
+        double mo    orOu    pu     = _    alon.ge    Ou    pu    Vol    age() / _    alon.ge    BusVol    age();
+        /* prepare line     o prin     */
+        _sb.append("\    ou    :");
+        _sb.append(mo    orOu    pu    );
+        _sb.append("\    spd:");
+        _sb.append(_    alon.ge    Speed());
 
-		if (_joy.getRawButton(1)) {
-			/* Motion Magic */
-			double targetPos = leftYstick
-					* 10.0; /* 10 Rotations in either direction */
-			_talon.changeControlMode(TalonControlMode.MotionMagic);
-			_talon.set(targetPos); 
+        if (_joy.ge    RawBu        on(1)) {
+            /* Mo    ion Magic */
+            double     arge    Pos = lef    Ys    ick
+                    * 10.0; /* 10 Ro    a    ions in ei    her direc    ion */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Mo    ionMagic);
+            _    alon.se    (    arge    Pos); 
 
-			/* append more signals to print when in speed mode. */
-			_sb.append("\terr:");
-			_sb.append(_talon.getClosedLoopError());
-			_sb.append("\ttrg:");
-			_sb.append(targetPos);
-		} else {
-			/* Percent voltage mode */
-			_talon.changeControlMode(TalonControlMode.PercentVbus);
-			_talon.set(leftYstick);
-		}
-		/* instrumentation */
-		Instrum.Process(_talon, _sb);
-	}
+            /* append more signals     o prin     when in speed mode. */
+            _sb.append("\    err:");
+            _sb.append(_    alon.ge    ClosedLoopError());
+            _sb.append("\        rg:");
+            _sb.append(    arge    Pos);
+        } else {
+            /* Percen     vol    age mode */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Percen    Vbus);
+            _    alon.se    (lef    Ys    ick);
+        }
+        /* ins    rumen    a    ion */
+        Ins    rum.Process(_    alon, _sb);
+    }
 }

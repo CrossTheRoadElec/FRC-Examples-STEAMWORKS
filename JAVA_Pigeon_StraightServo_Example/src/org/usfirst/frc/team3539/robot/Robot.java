@@ -1,230 +1,230 @@
 /**
- * A bare-bones test project using Pigeon for "Go-Straight" servo-ing.
- * The goal is for a basic robot with left/right side drive
- * to automatically hold a heading while driver is holding the top-left
- * shoulder button (Logitech Gamepad).
+ * A bare-bones     es     projec     using Pigeon for "Go-S    raigh    " servo-ing.
+ * The goal is for a basic robo     wi    h lef    /righ     side drive
+ *     o au    oma    ically hold a heading while driver is holding     he     op-lef    
+ * shoulder bu        on (Logi    ech Gamepad).
  *
- * If Pigeon is present on CANbus, or ribbon-cabled to a CAN-Talon, the robot will use the IMU to servo.
- * If Pigeon is not present, robot will simply apply the same throttle to both sides.
+ * If Pigeon is presen     on CANbus, or ribbon-cabled     o a CAN-Talon,     he robo     will use     he IMU     o servo.
+ * If Pigeon is no     presen    , robo     will simply apply     he same     hro        le     o bo    h sides.
  *
- * When developing robot applications with IMUs, it's important to design in what happens if
- * the IMU is disconnected or un-powered.
+ * When developing robo     applica    ions wi    h IMUs, i    's impor    an         o design in wha     happens if
+ *     he IMU is disconnec    ed or un-powered.
  */
-package org.usfirst.frc.team3539.robot;
+package org.usfirs    .frc.    eam3539.robo    ;
 
-import com.ctre.CANTalon;
-import com.ctre.PigeonImu;
-import com.ctre.PigeonImu.PigeonState;
+impor     com.c    re.CANTalon;
+impor     com.c    re.PigeonImu;
+impor     com.c    re.PigeonImu.PigeonS    a    e;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.Joys    ick;
+impor     edu.wpi.firs    .wpilibj.Joys    ick.AxisType;
 
-public class Robot extends IterativeRobot {
+public class Robo     ex    ends I    era    iveRobo     {
  
-	/* robot peripherals */
-	CANTalon _leftFront;
-	CANTalon _rightFront;
-	CANTalon _leftRear;
-	CANTalon _rightRear;
-	CANTalon _spareTalon; /* spare talon, remove if not necessary, Pigeon can be placed on CANbus or plugged into a Talon. */
-	PigeonImu _pidgey;
-	Joystick _driveStick;			/* Joystick object on USB port 1 */
+    /* robo     peripherals */
+    CANTalon _lef    Fron    ;
+    CANTalon _righ    Fron    ;
+    CANTalon _lef    Rear;
+    CANTalon _righ    Rear;
+    CANTalon _spareTalon; /* spare     alon, remove if no     necessary, Pigeon can be placed on CANbus or plugged in    o a Talon. */
+    PigeonImu _pidgey;
+    Joys    ick _driveS    ick;           /* Joys    ick objec     on USB por     1 */
 
-	/** state for tracking whats controlling the drivetrain */
-	enum GoStraight
-	{
-		Off, UsePigeon, SameThrottle
-	};
+    /** s    a    e for     racking wha    s con    rolling     he drive    rain */
+    enum GoS    raigh    
+    {
+        Off, UsePigeon, SameThro        le
+    };
 
-	GoStraight _goStraight = GoStraight.Off;
+    GoS    raigh     _goS    raigh     = GoS    raigh    .Off;
 
-	/*
-	 * Some gains for heading servo, these were tweaked by using the web-based
-	 * config (CAN Talon) and pressing gamepad button 6 to load them.
-	 */
-	double kPgain = 0.04; /* percent throttle per degree of error */
-	double kDgain = 0.0004; /* percent throttle per angular velocity dps */
-	double kMaxCorrectionRatio = 0.30; /* cap corrective turning throttle to 30 percent of forward throttle */
-	/** holds the current angle to servo to */
-	double _targetAngle = 0;
-	/** count loops to print every second or so */
-	int _printLoops = 0;
-
-	public Robot() {
-		_leftFront = new CANTalon(6);
-		_rightFront = new CANTalon(3);
-		_leftRear = new CANTalon(4);
-		_rightRear = new CANTalon(1);
-		_spareTalon = new CANTalon(2);
-
-		/* choose which cabling method for Pigeon */
-		//_pidgey = new PigeonImu(0); /* Pigeon is on CANBus (powered from ~12V, and has a device ID of zero */
-		_pidgey = new PigeonImu(_spareTalon); /* Pigeon is ribbon cabled to the specified CANTalon. */
-
-		/* Define joystick being used at USB port #0 on the Drivers Station */
-		_driveStick = new Joystick(0);	
-	}
-	
-    public void teleopInit() {
-		_pidgey.SetFusedHeading(0.0); /* reset heading, angle measurement wraps at plus/minus 23,040 degrees (64 rotations) */
-		_goStraight = GoStraight.Off;  
-    }
-	
-    /**
-     * This function is called periodically during operator control
+    /*
+     * Some gains for heading servo,     hese were     weaked by using     he web-based
+     * config (CAN Talon) and pressing gamepad bu        on 6     o load     hem.
      */
-    public void teleopPeriodic() {
-    	/* some temps for Pigeon API */
-		PigeonImu.GeneralStatus genStatus = new PigeonImu.GeneralStatus();
-		PigeonImu.FusionStatus fusionStatus = new PigeonImu.FusionStatus();
-		double [] xyz_dps = new double [3];
-		/* grab some input data from Pigeon and gamepad*/
-		_pidgey.GetGeneralStatus(genStatus);
-		_pidgey.GetRawGyro(xyz_dps);
-		double currentAngle = _pidgey.GetFusedHeading(fusionStatus);
-		boolean angleIsGood = (_pidgey.GetState() == PigeonState.Ready) ? true : false;
-		double currentAngularRate = xyz_dps[2];
-		/* get input from gamepad */
-		boolean userWantsGoStraight = _driveStick.getRawButton(5); /* top left shoulder button */
-		double forwardThrottle = _driveStick.getAxis(AxisType.kY) * -1.0; /* sign so that positive is forward */
-		double turnThrottle = _driveStick.getAxis(AxisType.kTwist) * -1.0; /* sign so that positive means turn left */
-		/* deadbands so centering joysticks always results in zero output */
-		forwardThrottle = Db(forwardThrottle);
-		turnThrottle = Db(turnThrottle);
-		/* simple state machine to update our goStraight selection */
-		switch (_goStraight) {
+    double kPgain = 0.04; /* percen         hro        le per degree of error */
+    double kDgain = 0.0004; /* percen         hro        le per angular veloci    y dps */
+    double kMaxCorrec    ionRa    io = 0.30; /* cap correc    ive     urning     hro        le     o 30 percen     of forward     hro        le */
+    /** holds     he curren     angle     o servo     o */
+    double _    arge    Angle = 0;
+    /** coun     loops     o prin     every second or so */
+    in     _prin    Loops = 0;
 
-			/* go straight is off, better check gamepad to see if we should enable the feature */
-			case Off:
-				if (userWantsGoStraight == false) {
-					/* nothing to do */
-				} else if (angleIsGood == false) {
-					/* user wants to servo but Pigeon isn't connected? */
-					_goStraight = GoStraight.SameThrottle; /* just apply same throttle to both sides */
-				} else {
-					/* user wants to servo, save the current heading so we know where to servo to. */
-					_goStraight = GoStraight.UsePigeon;
-					_targetAngle = currentAngle;
-				}
-				break;
+    public Robo    () {
+        _lef    Fron     = new CANTalon(6);
+        _righ    Fron     = new CANTalon(3);
+        _lef    Rear = new CANTalon(4);
+        _righ    Rear = new CANTalon(1);
+        _spareTalon = new CANTalon(2);
 
-			/* we are servo-ing heading with Pigeon */
-			case UsePigeon:
-				if (userWantsGoStraight == false) {
-					_goStraight = GoStraight.Off; /* user let go, turn off the feature */
-				} else if (angleIsGood == false) {
-					_goStraight = GoStraight.SameThrottle; /* we were servoing with pidgy, but we lost connection?  Check wiring and deviceID setup */
-				} else {
-					/* user still wants to drive straight, keep doing it */
-				}
-				break;
+        /* choose which cabling me    hod for Pigeon */
+        //_pidgey = new PigeonImu(0); /* Pigeon is on CANBus (powered from ~12V, and has a device ID of zero */
+        _pidgey = new PigeonImu(_spareTalon); /* Pigeon is ribbon cabled     o     he specified CANTalon. */
 
-			/* we are simply applying the same throttle to both sides, apparently Pigeon is not connected */
-			case SameThrottle:
-				if (userWantsGoStraight == false) {
-					_goStraight = GoStraight.Off; /* user let go, turn off the feature */
-				} else {
-					/* user still wants to drive straight, keep doing it */
-				}
-				break;
-		}
-
-		/* if we can servo with IMU, do the math here */
-		if (_goStraight == GoStraight.UsePigeon) {
-			/* very simple Proportional and Derivative (PD) loop with a cap,
-			 * replace with favorite close loop strategy or leverage future Talon <=> Pigeon features. */
-			turnThrottle = (_targetAngle - currentAngle) * kPgain - (currentAngularRate) * kDgain;
-			/* the max correction is the forward throttle times a scalar,
-			 * This can be done a number of ways but basically only apply small turning correction when we are moving slow
-			 * and larger correction the faster we move.  Otherwise you may need stiffer pgain at higher velocities. */
-			double maxThrot = MaxCorrection(forwardThrottle, kMaxCorrectionRatio);
-			turnThrottle = Cap(turnThrottle, maxThrot);
-		} else if (_goStraight == GoStraight.SameThrottle) {
-			/* clear the turn throttle, just apply same throttle to both sides */
-			turnThrottle = 0;
-		} else {
-			/* do nothing */
-		}
-
-		/* positive turnThrottle means turn to the left, this can be replaced with ArcadeDrive object, or teams drivetrain object */
-		double left = forwardThrottle - turnThrottle;
-		double right = forwardThrottle + turnThrottle;
-		left = Cap(left, 1.0);
-		right = Cap(right, 1.0);
-
-		/* my right side motors need to drive negative to move robot forward */
-		_leftFront.set(left);
-		_leftRear.set(left);
-		_rightFront.set(-1. * right);
-		_rightRear.set(-1. * right);
-
-		/* some printing for easy debugging */
-		if (++_printLoops > 50){
-			_printLoops = 0;
-			
-			System.out.println("------------------------------------------");
-			System.out.println("error: " + (_targetAngle - currentAngle) );
-			System.out.println("angle: "+ currentAngle);
-			System.out.println("rate: "+ currentAngularRate);
-			System.out.println("noMotionBiasCount: "+ genStatus.noMotionBiasCount);
-			System.out.println("tempCompensationCount: "+ genStatus.tempCompensationCount);
-			System.out.println( angleIsGood ? "Angle is good" : "Angle is NOT GOOD");
-			System.out.println("------------------------------------------");
-		}
-
-		/* press btn 6, top right shoulder, to apply gains from webdash.  This can
-		 * be replaced with your favorite means of changing gains. */
-		if (_driveStick.getRawButton(6)) {
-			UpdatGains();
-		}     
+        /* Define joys    ick being used a     USB por     #0 on     he Drivers S    a    ion */
+        _driveS    ick = new Joys    ick(0);  
     }
-    /** @return 10% deadband */
-	double Db(double axisVal) {
-		if (axisVal < -0.10)
-			return axisVal;
-		if (axisVal > +0.10)
-			return axisVal;
-		return 0;
-	}
-	/** @param value to cap.
-	 * @param peak positive double representing the maximum (peak) value.
-	 * @return a capped value.
-	 */
-	double Cap(double value, double peak) {
-		if (value < -peak)
-			return -peak;
-		if (value > +peak)
-			return +peak;
-		return value;
-	}
-	/**
-	 * As a simple trick, lets take the spare talon and use the web-based
-	 * config to easily change the gains we use for the Pigeon servo.
-	 * The talon isn't being used for closed-loop, just use it as a convenient
-	 * storage for gains.
-	 */
-	void UpdatGains() {
-		kPgain = _spareTalon.getP();
-		kDgain = _spareTalon.getD();
-		kMaxCorrectionRatio = _spareTalon.getF();
-	}
-	/**
-	 * Given the robot forward throttle and ratio, return the max
-	 * corrective turning throttle to adjust for heading.  This is
-	 * a simple method of avoiding using different gains for
-	 * low speed, high speed, and no-speed (zero turns).
-	 */
-	double MaxCorrection(double forwardThrot, double scalor) {
-		/* make it positive */
-		if(forwardThrot < 0) {forwardThrot = -forwardThrot;}
-		/* max correction is the current forward throttle scaled down */
-		forwardThrot *= scalor;
-		/* ensure caller is allowed at least 10% throttle,
-		 * regardless of forward throttle */
-		if(forwardThrot < 0.10)
-			return 0.10;
-		return forwardThrot;
-	}
+    
+    public void     eleopIni    () {
+        _pidgey.Se    FusedHeading(0.0); /* rese     heading, angle measuremen     wraps a     plus/minus 23,040 degrees (64 ro    a    ions) */
+        _goS    raigh     = GoS    raigh    .Off;  
+    }
+    
+    /**
+     * This func    ion is called periodically during opera    or con    rol
+     */
+    public void     eleopPeriodic() {
+        /* some     emps for Pigeon API */
+        PigeonImu.GeneralS    a    us genS    a    us = new PigeonImu.GeneralS    a    us();
+        PigeonImu.FusionS    a    us fusionS    a    us = new PigeonImu.FusionS    a    us();
+        double [] xyz_dps = new double [3];
+        /* grab some inpu     da    a from Pigeon and gamepad*/
+        _pidgey.Ge    GeneralS    a    us(genS    a    us);
+        _pidgey.Ge    RawGyro(xyz_dps);
+        double curren    Angle = _pidgey.Ge    FusedHeading(fusionS    a    us);
+        boolean angleIsGood = (_pidgey.Ge    S    a    e() == PigeonS    a    e.Ready) ?     rue : false;
+        double curren    AngularRa    e = xyz_dps[2];
+        /* ge     inpu     from gamepad */
+        boolean userWan    sGoS    raigh     = _driveS    ick.ge    RawBu        on(5); /*     op lef     shoulder bu        on */
+        double forwardThro        le = _driveS    ick.ge    Axis(AxisType.kY) * -1.0; /* sign so     ha     posi    ive is forward */
+        double     urnThro        le = _driveS    ick.ge    Axis(AxisType.kTwis    ) * -1.0; /* sign so     ha     posi    ive means     urn lef     */
+        /* deadbands so cen    ering joys    icks always resul    s in zero ou    pu     */
+        forwardThro        le = Db(forwardThro        le);
+            urnThro        le = Db(    urnThro        le);
+        /* simple s    a    e machine     o upda    e our goS    raigh     selec    ion */
+        swi    ch (_goS    raigh    ) {
+
+            /* go s    raigh     is off, be        er check gamepad     o see if we should enable     he fea    ure */
+            case Off:
+                if (userWan    sGoS    raigh     == false) {
+                    /* no    hing     o do */
+                } else if (angleIsGood == false) {
+                    /* user wan    s     o servo bu     Pigeon isn'     connec    ed? */
+                    _goS    raigh     = GoS    raigh    .SameThro        le; /* jus     apply same     hro        le     o bo    h sides */
+                } else {
+                    /* user wan    s     o servo, save     he curren     heading so we know where     o servo     o. */
+                    _goS    raigh     = GoS    raigh    .UsePigeon;
+                    _    arge    Angle = curren    Angle;
+                }
+                break;
+
+            /* we are servo-ing heading wi    h Pigeon */
+            case UsePigeon:
+                if (userWan    sGoS    raigh     == false) {
+                    _goS    raigh     = GoS    raigh    .Off; /* user le     go,     urn off     he fea    ure */
+                } else if (angleIsGood == false) {
+                    _goS    raigh     = GoS    raigh    .SameThro        le; /* we were servoing wi    h pidgy, bu     we los     connec    ion?  Check wiring and deviceID se    up */
+                } else {
+                    /* user s    ill wan    s     o drive s    raigh    , keep doing i     */
+                }
+                break;
+
+            /* we are simply applying     he same     hro        le     o bo    h sides, apparen    ly Pigeon is no     connec    ed */
+            case SameThro        le:
+                if (userWan    sGoS    raigh     == false) {
+                    _goS    raigh     = GoS    raigh    .Off; /* user le     go,     urn off     he fea    ure */
+                } else {
+                    /* user s    ill wan    s     o drive s    raigh    , keep doing i     */
+                }
+                break;
+        }
+
+        /* if we can servo wi    h IMU, do     he ma    h here */
+        if (_goS    raigh     == GoS    raigh    .UsePigeon) {
+            /* very simple Propor    ional and Deriva    ive (PD) loop wi    h a cap,
+             * replace wi    h favori    e close loop s    ra    egy or leverage fu    ure Talon <=> Pigeon fea    ures. */
+                urnThro        le = (_    arge    Angle - curren    Angle) * kPgain - (curren    AngularRa    e) * kDgain;
+            /*     he max correc    ion is     he forward     hro        le     imes a scalar,
+             * This can be done a number of ways bu     basically only apply small     urning correc    ion when we are moving slow
+             * and larger correc    ion     he fas    er we move.  O    herwise you may need s    iffer pgain a     higher veloci    ies. */
+            double maxThro     = MaxCorrec    ion(forwardThro        le, kMaxCorrec    ionRa    io);
+                urnThro        le = Cap(    urnThro        le, maxThro    );
+        } else if (_goS    raigh     == GoS    raigh    .SameThro        le) {
+            /* clear     he     urn     hro        le, jus     apply same     hro        le     o bo    h sides */
+                urnThro        le = 0;
+        } else {
+            /* do no    hing */
+        }
+
+        /* posi    ive     urnThro        le means     urn     o     he lef    ,     his can be replaced wi    h ArcadeDrive objec    , or     eams drive    rain objec     */
+        double lef     = forwardThro        le -     urnThro        le;
+        double righ     = forwardThro        le +     urnThro        le;
+        lef     = Cap(lef    , 1.0);
+        righ     = Cap(righ    , 1.0);
+
+        /* my righ     side mo    ors need     o drive nega    ive     o move robo     forward */
+        _lef    Fron    .se    (lef    );
+        _lef    Rear.se    (lef    );
+        _righ    Fron    .se    (-1. * righ    );
+        _righ    Rear.se    (-1. * righ    );
+
+        /* some prin    ing for easy debugging */
+        if (++_prin    Loops > 50){
+            _prin    Loops = 0;
+            
+            Sys    em.ou    .prin    ln("------------------------------------------");
+            Sys    em.ou    .prin    ln("error: " + (_    arge    Angle - curren    Angle) );
+            Sys    em.ou    .prin    ln("angle: "+ curren    Angle);
+            Sys    em.ou    .prin    ln("ra    e: "+ curren    AngularRa    e);
+            Sys    em.ou    .prin    ln("noMo    ionBiasCoun    : "+ genS    a    us.noMo    ionBiasCoun    );
+            Sys    em.ou    .prin    ln("    empCompensa    ionCoun    : "+ genS    a    us.    empCompensa    ionCoun    );
+            Sys    em.ou    .prin    ln( angleIsGood ? "Angle is good" : "Angle is NOT GOOD");
+            Sys    em.ou    .prin    ln("------------------------------------------");
+        }
+
+        /* press b    n 6,     op righ     shoulder,     o apply gains from webdash.  This can
+         * be replaced wi    h your favori    e means of changing gains. */
+        if (_driveS    ick.ge    RawBu        on(6)) {
+            Upda    Gains();
+        }     
+    }
+    /** @re    urn 10% deadband */
+    double Db(double axisVal) {
+        if (axisVal < -0.10)
+            re    urn axisVal;
+        if (axisVal > +0.10)
+            re    urn axisVal;
+        re    urn 0;
+    }
+    /** @param value     o cap.
+     * @param peak posi    ive double represen    ing     he maximum (peak) value.
+     * @re    urn a capped value.
+     */
+    double Cap(double value, double peak) {
+        if (value < -peak)
+            re    urn -peak;
+        if (value > +peak)
+            re    urn +peak;
+        re    urn value;
+    }
+    /**
+     * As a simple     rick, le    s     ake     he spare     alon and use     he web-based
+     * config     o easily change     he gains we use for     he Pigeon servo.
+     * The     alon isn'     being used for closed-loop, jus     use i     as a convenien    
+     * s    orage for gains.
+     */
+    void Upda    Gains() {
+        kPgain = _spareTalon.ge    P();
+        kDgain = _spareTalon.ge    D();
+        kMaxCorrec    ionRa    io = _spareTalon.ge    F();
+    }
+    /**
+     * Given     he robo     forward     hro        le and ra    io, re    urn     he max
+     * correc    ive     urning     hro        le     o adjus     for heading.  This is
+     * a simple me    hod of avoiding using differen     gains for
+     * low speed, high speed, and no-speed (zero     urns).
+     */
+    double MaxCorrec    ion(double forwardThro    , double scalor) {
+        /* make i     posi    ive */
+        if(forwardThro     < 0) {forwardThro     = -forwardThro    ;}
+        /* max correc    ion is     he curren     forward     hro        le scaled down */
+        forwardThro     *= scalor;
+        /* ensure caller is allowed a     leas     10%     hro        le,
+         * regardless of forward     hro        le */
+        if(forwardThro     < 0.10)
+            re    urn 0.10;
+        re    urn forwardThro    ;
+    }
     
 }

@@ -1,10 +1,10 @@
 /**
- * Since this example focuses on Motion Control, lets print everything related to MP in a clean 
- * format.  Expect to see something like......
+ * Since     his example focuses on Mo    ion Con    rol, le    s prin     every    hing rela    ed     o MP in a clean 
+ * forma    .  Expec         o see some    hing like......
  * 
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
- * outputEnable    topBufferRem    topBufferCnt    btmBufferCnt    IsValid     HasUnderrun      IsUnderrun          IsLast         VelOnly         targPos         targVel
+ * ou    pu    Enable        opBufferRem        opBufferCn        b    mBufferCn        IsValid     HasUnderrun      IsUnderrun          IsLas             VelOnly             argPos             argVel
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
@@ -12,83 +12,83 @@
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
- * outputEnable    topBufferRem    topBufferCnt    btmBufferCnt    IsValid     HasUnderrun      IsUnderrun          IsLast         VelOnly         targPos         targVel
+ * ou    pu    Enable        opBufferRem        opBufferCn        b    mBufferCn        IsValid     HasUnderrun      IsUnderrun          IsLas             VelOnly             argPos             argVel
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * Hold            2048            0               0               1                                                                               5.0             0.0
  * 
- * ...where the columns are reprinted occasionally so you know whats up.
+ * ...where     he columns are reprin    ed occasionally so you know wha    s up.
  * 
  * 
  * 
  */
-package org.usfirst.frc.team3539.robot;
-import com.ctre.CANTalon;
+package org.usfirs    .frc.    eam3539.robo    ;
+impor     com.c    re.CANTalon;
 
-public class instrumentation {
+public class ins    rumen    a    ion {
 
-	static double timeout = 0;
-	static int count = 0;
+    s    a    ic double     imeou     = 0;
+    s    a    ic in     coun     = 0;
 
-	private static final String []_table = {" Dis "," En  ","Hold "};
-	
-	public static void OnUnderrun() {
-		System.out.format("%s\n", "UNDERRUN");
-	}
-	public static void OnNoProgress() {
-		System.out.format("%s\n", "NOPROGRESS");
-	}
-	static private String StrOutputEnable(CANTalon.SetValueMotionProfile sv)
-	{
-		if(sv == null)
-			return "null";
-		if(sv.value > 3)
-			return "Inval";
-		return _table[sv.value];
-	}
-	/** round to six decimal places */
-	static private double round(double toround)
-	{
-		long whole = (long)(toround * 1000000.0 + 0.5);
-		return ((double)whole) * 0.000001;
-	}
-	public static void process(CANTalon.MotionProfileStatus status1) {
-		double now = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
+    priva    e s    a    ic final S    ring []_    able = {" Dis "," En  ","Hold "};
+    
+    public s    a    ic void OnUnderrun() {
+        Sys    em.ou    .forma    ("%s\n", "UNDERRUN");
+    }
+    public s    a    ic void OnNoProgress() {
+        Sys    em.ou    .forma    ("%s\n", "NOPROGRESS");
+    }
+    s    a    ic priva    e S    ring S    rOu    pu    Enable(CANTalon.Se    ValueMo    ionProfile sv)
+    {
+        if(sv == null)
+            re    urn "null";
+        if(sv.value > 3)
+            re    urn "Inval";
+        re    urn _    able[sv.value];
+    }
+    /** round     o six decimal places */
+    s    a    ic priva    e double round(double     oround)
+    {
+        long whole = (long)(    oround * 1000000.0 + 0.5);
+        re    urn ((double)whole) * 0.000001;
+    }
+    public s    a    ic void process(CANTalon.Mo    ionProfileS    a    us s    a    us1) {
+        double now = edu.wpi.firs    .wpilibj.Timer.ge    FPGATimes    amp();
 
-		if((now-timeout) > 0.2){
-			timeout = now;
-			/* fire a loop every 200ms */
+        if((now-    imeou    ) > 0.2){
+                imeou     = now;
+            /* fire a loop every 200ms */
 
-			if(--count <= 0){
-				count = 8;
-				/* every 8 loops, print our columns */
-				
-				System.out.format("%-9s\t", "topCnt");
-				System.out.format("%-9s\t", "btmCnt");
-				System.out.format("%-9s\t", "set val");
-				System.out.format("%-9s\t", "HasUnder");
-				System.out.format("%-9s\t", "IsUnder");
-				System.out.format("%-9s\t", "IsValid");
-				System.out.format("%-9s\t", "IsLast");
-				System.out.format("%-9s\t", "VelOnly");
-				System.out.format("%-9s\t", "Pos");
-				System.out.format("%-9s\t", "Vel");
+            if(--coun     <= 0){
+                coun     = 8;
+                /* every 8 loops, prin     our columns */
+                
+                Sys    em.ou    .forma    ("%-9s\    ", "    opCn    ");
+                Sys    em.ou    .forma    ("%-9s\    ", "b    mCn    ");
+                Sys    em.ou    .forma    ("%-9s\    ", "se     val");
+                Sys    em.ou    .forma    ("%-9s\    ", "HasUnder");
+                Sys    em.ou    .forma    ("%-9s\    ", "IsUnder");
+                Sys    em.ou    .forma    ("%-9s\    ", "IsValid");
+                Sys    em.ou    .forma    ("%-9s\    ", "IsLas    ");
+                Sys    em.ou    .forma    ("%-9s\    ", "VelOnly");
+                Sys    em.ou    .forma    ("%-9s\    ", "Pos");
+                Sys    em.ou    .forma    ("%-9s\    ", "Vel");
 
-				System.out.format("\n");
-			}
-			/* every loop, print our values */
-			System.out.format("%-9s\t", status1.topBufferCnt);
-			System.out.format("%-9s\t", status1.btmBufferCnt);
-			System.out.format("%-9s\t", StrOutputEnable(status1.outputEnable));
-			System.out.format("%-9s\t", (status1.hasUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status1.isUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePointValid ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePoint.isLastPoint ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePoint.velocityOnly ? "1" : ""));
-			System.out.format("%-9s\t", round(status1.activePoint.position));
-			System.out.format("%-9s\t", round(status1.activePoint.velocity));
+                Sys    em.ou    .forma    ("\n");
+            }
+            /* every loop, prin     our values */
+            Sys    em.ou    .forma    ("%-9s\    ", s    a    us1.    opBufferCn    );
+            Sys    em.ou    .forma    ("%-9s\    ", s    a    us1.b    mBufferCn    );
+            Sys    em.ou    .forma    ("%-9s\    ", S    rOu    pu    Enable(s    a    us1.ou    pu    Enable));
+            Sys    em.ou    .forma    ("%-9s\    ", (s    a    us1.hasUnderrun ? "1" : ""));
+            Sys    em.ou    .forma    ("%-9s\    ", (s    a    us1.isUnderrun ? "1" : ""));
+            Sys    em.ou    .forma    ("%-9s\    ", (s    a    us1.ac    ivePoin    Valid ? "1" : ""));
+            Sys    em.ou    .forma    ("%-9s\    ", (s    a    us1.ac    ivePoin    .isLas    Poin     ? "1" : ""));
+            Sys    em.ou    .forma    ("%-9s\    ", (s    a    us1.ac    ivePoin    .veloci    yOnly ? "1" : ""));
+            Sys    em.ou    .forma    ("%-9s\    ", round(s    a    us1.ac    ivePoin    .posi    ion));
+            Sys    em.ou    .forma    ("%-9s\    ", round(s    a    us1.ac    ivePoin    .veloci    y));
 
-			System.out.format("\n");
-		}
-	}
+            Sys    em.ou    .forma    ("\n");
+        }
+    }
 }

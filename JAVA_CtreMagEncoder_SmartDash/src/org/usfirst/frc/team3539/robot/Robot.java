@@ -1,99 +1,99 @@
 /**
- * @brief A quick example on higher resolution plotting a sensor for testing.
+ * @brief A quick example on higher resolu    ion plo        ing a sensor for     es    ing.
  * 
- * Simple example for plotting sensor
- * Sensor is a CTRE Magnetic Encoder plugged into a Talon SRX via Gadgeteer Ribbon Cable.
- * Robot should be propped up on blocks so that the wheels spin free (if testing a drive train sensor).
+ * Simple example for plo        ing sensor
+ * Sensor is a CTRE Magne    ic Encoder plugged in    o a Talon SRX via Gadge    eer Ribbon Cable.
+ * Robo     should be propped up on blocks so     ha         he wheels spin free (if     es    ing a drive     rain sensor).
  * 
  * Talon SRX ...
- * http://www.ctr-electronics.com/talon-srx.html
- * Magnetic Encoder...
- * http://www.ctr-electronics.com/srx-magnetic-encoder.html
+ * h        p://www.c    r-elec    ronics.com/    alon-srx.h    ml
+ * Magne    ic Encoder...
+ * h        p://www.c    r-elec    ronics.com/srx-magne    ic-encoder.h    ml
  * Cables...
- * http://www.ctr-electronics.com/talon-srx-data-cable-4-pack.html#product_tabs_related_tabbed
- * http://www.ctr-electronics.com/talon-srx-data-cable-kit-new-product.html
+ * h        p://www.c    r-elec    ronics.com/    alon-srx-da    a-cable-4-pack.h    ml#produc    _    abs_rela    ed_    abbed
+ * h        p://www.c    r-elec    ronics.com/    alon-srx-da    a-cable-ki    -new-produc    .h    ml
  * 
- * SmartDashboard (SD) setup.
- * [1] Open Smartdashboard (I typically (re)select the Dashboard Type in DriverStation if the SD doesn't pop up).
- * [2] Deploy software and enable.
- * [3] Find the text entry in the SD for "spd".  
- * [4] View =>Editable should be checked.
- * [5] Right-click on "spd" label and "Change to..." the Line Plot.  
+ * Smar    Dashboard (SD) se    up.
+ * [1] Open Smar    dashboard (I     ypically (re)selec         he Dashboard Type in DriverS    a    ion if     he SD doesn'     pop up).
+ * [2] Deploy sof    ware and enable.
+ * [3] Find     he     ex     en    ry in     he SD for "spd".  
+ * [4] View =>Edi    able should be checked.
+ * [5] Righ    -click on "spd" label and "Change     o..."     he Line Plo    .  
  * 
- * A few details regarding Smartdashboard in general...
- * [1] Constant data does not render new plot points. So if the signal being measured doesn't change value, the plot stops.
- * Once the signal changes again the plot resumes but the time gap between is truncated in the plot.
- * [2] Changing the window of samples is done by View=>Editable=>Check, then right click-properties on the plot.
- * 		Then change "Buffer Size" in the popup.   I find myself changing this often as I learn more about the signal I am viewing.
- * [3] Zoom features will cause the plot to stop updating and I haven't found a quick way to get the plot to resume plotting.  So 
- * 		I've been avoiding Zoom-In/Zoom-Out for now.
- * [4] Right-click properties on the plot does different things depending on if View=>Editable is checked.
+ * A few de    ails regarding Smar    dashboard in general...
+ * [1] Cons    an     da    a does no     render new plo     poin    s. So if     he signal being measured doesn'     change value,     he plo     s    ops.
+ * Once     he signal changes again     he plo     resumes bu         he     ime gap be    ween is     runca    ed in     he plo    .
+ * [2] Changing     he window of samples is done by View=>Edi    able=>Check,     hen righ     click-proper    ies on     he plo    .
+ *      Then change "Buffer Size" in     he popup.   I find myself changing     his of    en as I learn more abou         he signal I am viewing.
+ * [3] Zoom fea    ures will cause     he plo         o s    op upda    ing and I haven'     found a quick way     o ge         he plo         o resume plo        ing.  So 
+ *      I've been avoiding Zoom-In/Zoom-Ou     for now.
+ * [4] Righ    -click proper    ies on     he plo     does differen         hings depending on if View=>Edi    able is checked.
  *  
- * @author Ozrien
+ * @au    hor Ozrien
  */
-package org.usfirst.frc.team3539.robot; // bulldogs!
+package org.usfirs    .frc.    eam3539.robo    ; // bulldogs!
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.StatusFrameRate;
-import com.ctre.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+impor     com.c    re.CANTalon;
+impor     com.c    re.CANTalon.FeedbackDevice;
+impor     com.c    re.CANTalon.S    a    usFrameRa    e;
+impor     com.c    re.CANTalon.TalonCon    rolMode;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.ne    work    ables.Ne    workTable;
+impor     edu.wpi.firs    .wpilibj.smar    dashboard.Smar    Dashboard;
 
-public class Robot extends IterativeRobot {
-	
-	CANTalon _tal1 = new CANTalon(1); //!< Just a follower
-	CANTalon _tal3 = new CANTalon(3);	
-	PlotThread _plotThread;
-	
-	public void teleopInit() {
-		/* Tal1 will follow Tal3 */
-		_tal1.changeControlMode(TalonControlMode.Follower);
-		_tal1.set(3);
-		
-		/* new frame every 1ms, since this is a test project use up as 
-		 * much bandwidth as possible for the purpose of this test. */
-		_tal3.setStatusFrameRateMs(StatusFrameRate.Feedback, 1); 
-		_tal3.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		
-		/* fire the plotter */
-		_plotThread = new PlotThread(this);
-		new Thread(_plotThread).start();
-	}
+public class Robo     ex    ends I    era    iveRobo     {
+    
+    CANTalon _    al1 = new CANTalon(1); //!< Jus     a follower
+    CANTalon _    al3 = new CANTalon(3);   
+    Plo    Thread _plo    Thread;
+    
+    public void     eleopIni    () {
+        /* Tal1 will follow Tal3 */
+        _    al1.changeCon    rolMode(TalonCon    rolMode.Follower);
+        _    al1.se    (3);
+        
+        /* new frame every 1ms, since     his is a     es     projec     use up as 
+         * much bandwid    h as possible for     he purpose of     his     es    . */
+        _    al3.se    S    a    usFrameRa    eMs(S    a    usFrameRa    e.Feedback, 1); 
+        _    al3.se    FeedbackDevice(FeedbackDevice.C    reMagEncoder_Rela    ive);
+        
+        /* fire     he plo        er */
+        _plo    Thread = new Plo    Thread(    his);
+        new Thread(_plo    Thread).s    ar    ();
+    }
 
-	public void teleopPeriodic() {
-		/* Shooting for ~200RPM, which is ~300ms per rotation.
-		 *   
-		 * If there is mechanical deflection, eccentricity, or damage in the sensor
-		 * it should be revealed in the plot.  
-		 * 
-		 * For example, an optical encoder with a partially damaged ring will reveal a 
-		 * periodic dip in the sensed velocity synchronous with each rotation.
-		 * 
-		 *  This can also be wired to a gamepad to test velocity sweeping.
-		 * */
-		_tal3.set(0.4);		
-	}
-	
-	/** quick and dirty threaded plotter */
-	class PlotThread implements Runnable {
-		 Robot robot;
-		 public PlotThread(Robot robot) { this.robot = robot; }
+    public void     eleopPeriodic() {
+        /* Shoo    ing for ~200RPM, which is ~300ms per ro    a    ion.
+         *   
+         * If     here is mechanical deflec    ion, eccen    rici    y, or damage in     he sensor
+         * i     should be revealed in     he plo    .  
+         * 
+         * For example, an op    ical encoder wi    h a par    ially damaged ring will reveal a 
+         * periodic dip in     he sensed veloci    y synchronous wi    h each ro    a    ion.
+         * 
+         *  This can also be wired     o a gamepad     o     es     veloci    y sweeping.
+         * */
+        _    al3.se    (0.4);     
+    }
+    
+    /** quick and dir    y     hreaded plo        er */
+    class Plo    Thread implemen    s Runnable {
+         Robo     robo    ;
+         public Plo    Thread(Robo     robo    ) {     his.robo     = robo    ; }
 
-		 public void run() {
-			/* speed up network tables, this is a test project so eat up all 
-			 * of the network possible for the purpose of this test.
-			 */
-			NetworkTable.setUpdateRate(0.010); /* this suggests each time unit is 10ms in the plot */
-			while (true) {
-				/* yield for a ms or so - this is not meant to be accurate */
-				try { Thread.sleep(1); } catch (Exception e) { }
-				/* grab the last signal update from our 1ms frame update */
-				double speed = this.robot._tal3.getSpeed();
-				SmartDashboard.putNumber("spd", speed);
-			}
-		}
-	}
+         public void run() {
+            /* speed up ne    work     ables,     his is a     es     projec     so ea     up all 
+             * of     he ne    work possible for     he purpose of     his     es    .
+             */
+            Ne    workTable.se    Upda    eRa    e(0.010); /*     his sugges    s each     ime uni     is 10ms in     he plo     */
+            while (    rue) {
+                /* yield for a ms or so -     his is no     mean         o be accura    e */
+                    ry { Thread.sleep(1); } ca    ch (Excep    ion e) { }
+                /* grab     he las     signal upda    e from our 1ms frame upda    e */
+                double speed =     his.robo    ._    al3.ge    Speed();
+                Smar    Dashboard.pu    Number("spd", speed);
+            }
+        }
+    }
 }
 

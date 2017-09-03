@@ -1,114 +1,114 @@
 /**
- * This Java FRC robot application is meant to demonstrate an example using the Motion Profile control mode
- * in Talon SRX.  The CANTalon class gives us the ability to buffer up trajectory points and execute them
- * as the roboRIO streams them into the Talon SRX.
+ * This Java FRC robo     applica    ion is mean         o demons    ra    e an example using     he Mo    ion Profile con    rol mode
+ * in Talon SRX.  The CANTalon class gives us     he abili    y     o buffer up     rajec    ory poin    s and execu    e     hem
+ * as     he roboRIO s    reams     hem in    o     he Talon SRX.
  * 
- * There are many valid ways to use this feature and this example does not sufficiently demonstrate every possible
- * method.  Motion Profile streaming can be as complex as the developer needs it to be for advanced applications,
- * or it can be used in a simple fashion for fire-and-forget actions that require precise timing.
+ * There are many valid ways     o use     his fea    ure and     his example does no     sufficien    ly demons    ra    e every possible
+ * me    hod.  Mo    ion Profile s    reaming can be as complex as     he developer needs i         o be for advanced applica    ions,
+ * or i     can be used in a simple fashion for fire-and-forge     ac    ions     ha     require precise     iming.
  * 
- * This application is an IterativeRobot project to demonstrate a minimal implementation not requiring the command 
- * framework, however these code excerpts could be moved into a command-based project.
+ * This applica    ion is an I    era    iveRobo     projec         o demons    ra    e a minimal implemen    a    ion no     requiring     he command 
+ * framework, however     hese code excerp    s could be moved in    o a command-based projec    .
  * 
- * The project also includes instrumentation.java which simply has debug printfs, and a MotionProfile.java which is generated
- * in @link https://docs.google.com/spreadsheets/d/1PgT10EeQiR92LNXEOEe3VGn737P7WDP4t0CQxQgC8k0/edit#gid=1813770630&vpid=A1
+ * The projec     also includes ins    rumen    a    ion.java which simply has debug prin    fs, and a Mo    ionProfile.java which is genera    ed
+ * in @link h        ps://docs.google.com/spreadshee    s/d/1PgT10EeQiR92LNXEOEe3VGn737P7WDP4    0CQxQgC8k0/edi    #gid=1813770630&vpid=A1
  * 
- * Logitech Gamepad mapping, use left y axis to drive Talon normally.  
- * Press and hold top-left-shoulder-button5 to put Talon into motion profile control mode.
- * This will start sending Motion Profile to Talon while Talon is neutral. 
+ * Logi    ech Gamepad mapping, use lef     y axis     o drive Talon normally.  
+ * Press and hold     op-lef    -shoulder-bu        on5     o pu     Talon in    o mo    ion profile con    rol mode.
+ * This will s    ar     sending Mo    ion Profile     o Talon while Talon is neu    ral. 
  * 
- * While holding top-left-shoulder-button5, tap top-right-shoulder-button6.
- * This will signal Talon to fire MP.  When MP is done, Talon will "hold" the last setpoint position
- * and wait for another button6 press to fire again.
+ * While holding     op-lef    -shoulder-bu        on5,     ap     op-righ    -shoulder-bu        on6.
+ * This will signal Talon     o fire MP.  When MP is done, Talon will "hold"     he las     se    poin     posi    ion
+ * and wai     for ano    her bu        on6 press     o fire again.
  * 
- * Release button5 to allow OpenVoltage control with left y axis.
+ * Release bu        on5     o allow OpenVol    age con    rol wi    h lef     y axis.
  */
 
-package org.usfirst.frc.team3539.robot;
+package org.usfirs    .frc.    eam3539.robo    ;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
+impor     com.c    re.CANTalon;
+impor     com.c    re.CANTalon.TalonCon    rolMode;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.Joys    ick;
 
-public class Robot extends IterativeRobot {
+public class Robo     ex    ends I    era    iveRobo     {
 
-	/** The Talon we want to motion profile. */
-	CANTalon _talon = new CANTalon(0);
+    /** The Talon we wan         o mo    ion profile. */
+    CANTalon _    alon = new CANTalon(0);
 
-	/** some example logic on how one can manage an MP */
-	MotionProfileExample _example = new MotionProfileExample(_talon);
-	
-	/** joystick for testing */
-	Joystick _joy= new Joystick(0);
+    /** some example logic on how one can manage an MP */
+    Mo    ionProfileExample _example = new Mo    ionProfileExample(_    alon);
+    
+    /** joys    ick for     es    ing */
+    Joys    ick _joy= new Joys    ick(0);
 
-	/** cache last buttons so we can detect press events.  In a command-based project you can leverage the on-press event
-	 * but for this simple example, lets just do quick compares to prev-btn-states */
-	boolean [] _btnsLast = {false,false,false,false,false,false,false,false,false,false};
+    /** cache las     bu        ons so we can de    ec     press even    s.  In a command-based projec     you can leverage     he on-press even    
+     * bu     for     his simple example, le    s jus     do quick compares     o prev-b    n-s    a    es */
+    boolean [] _b    nsLas     = {false,false,false,false,false,false,false,false,false,false};
 
 
-	public Robot() { // could also use RobotInit()
-		_talon.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-		_talon.reverseSensor(false); /* keep sensor and motor in phase */
-	}
-	/**  function is called periodically during operator control */
-    public void teleopPeriodic() {
-		/* get buttons */
-		boolean [] btns= new boolean [_btnsLast.length];
-		for(int i=1;i<_btnsLast.length;++i)
-			btns[i] = _joy.getRawButton(i);
+    public Robo    () { // could also use Robo    Ini    ()
+        _    alon.se    FeedbackDevice(CANTalon.FeedbackDevice.C    reMagEncoder_Rela    ive);
+        _    alon.reverseSensor(false); /* keep sensor and mo    or in phase */
+    }
+    /**  func    ion is called periodically during opera    or con    rol */
+    public void     eleopPeriodic() {
+        /* ge     bu        ons */
+        boolean [] b    ns= new boolean [_b    nsLas    .leng    h];
+        for(in     i=1;i<_b    nsLas    .leng    h;++i)
+            b    ns[i] = _joy.ge    RawBu        on(i);
 
-		/* get the left joystick axis on Logitech Gampead */
-		double leftYjoystick = -1 * _joy.getY(); /* multiple by -1 so joystick forward is positive */
+        /* ge         he lef     joys    ick axis on Logi    ech Gampead */
+        double lef    Yjoys    ick = -1 * _joy.ge    Y(); /* mul    iple by -1 so joys    ick forward is posi    ive */
 
-		/* call this periodically, and catch the output.  Only apply it if user wants to run MP. */
-		_example.control();
-		
-		if (btns[5] == false) { /* Check button 5 (top left shoulder on the logitech gamead). */
-			/*
-			 * If it's not being pressed, just do a simple drive.  This
-			 * could be a RobotDrive class or custom drivetrain logic.
-			 * The point is we want the switch in and out of MP Control mode.*/
-		
-			/* button5 is off so straight drive */
-			_talon.changeControlMode(TalonControlMode.Voltage);
-			_talon.set(12.0 * leftYjoystick);
+        /* call     his periodically, and ca    ch     he ou    pu    .  Only apply i     if user wan    s     o run MP. */
+        _example.con    rol();
+        
+        if (b    ns[5] == false) { /* Check bu        on 5 (    op lef     shoulder on     he logi    ech gamead). */
+            /*
+             * If i    's no     being pressed, jus     do a simple drive.  This
+             * could be a Robo    Drive class or cus    om drive    rain logic.
+             * The poin     is we wan         he swi    ch in and ou     of MP Con    rol mode.*/
+        
+            /* bu        on5 is off so s    raigh     drive */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Vol    age);
+            _    alon.se    (12.0 * lef    Yjoys    ick);
 
-			_example.reset();
-		} else {
-			/* Button5 is held down so switch to motion profile control mode => This is done in MotionProfileControl.
-			 * When we transition from no-press to press,
-			 * pass a "true" once to MotionProfileControl.
-			 */
-			_talon.changeControlMode(TalonControlMode.MotionProfile);
-			
-			CANTalon.SetValueMotionProfile setOutput = _example.getSetValue();
-					
-			_talon.set(setOutput.value);
+            _example.rese    ();
+        } else {
+            /* Bu        on5 is held down so swi    ch     o mo    ion profile con    rol mode => This is done in Mo    ionProfileCon    rol.
+             * When we     ransi    ion from no-press     o press,
+             * pass a "    rue" once     o Mo    ionProfileCon    rol.
+             */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Mo    ionProfile);
+            
+            CANTalon.Se    ValueMo    ionProfile se    Ou    pu     = _example.ge    Se    Value();
+                    
+            _    alon.se    (se    Ou    pu    .value);
 
-			/* if btn is pressed and was not pressed last time,
-			 * In other words we just detected the on-press event.
-			 * This will signal the robot to start a MP */
-			if( (btns[6] == true) && (_btnsLast[6] == false) ) {
-				/* user just tapped button 6 */
-				_example.startMotionProfile();
-			}
-		}
+            /* if b    n is pressed and was no     pressed las         ime,
+             * In o    her words we jus     de    ec    ed     he on-press even    .
+             * This will signal     he robo         o s    ar     a MP */
+            if( (b    ns[6] ==     rue) && (_b    nsLas    [6] == false) ) {
+                /* user jus         apped bu        on 6 */
+                _example.s    ar    Mo    ionProfile();
+            }
+        }
 
-		/* save buttons states for on-press detection */
-		for(int i=1;i<10;++i)
-			_btnsLast[i] = btns[i];
+        /* save bu        ons s    a    es for on-press de    ec    ion */
+        for(in     i=1;i<10;++i)
+            _b    nsLas    [i] = b    ns[i];
 
-	}
-	/**  function is called periodically during disable */
-	public void disabledPeriodic() {
-		/* it's generally a good idea to put motor controllers back
-		 * into a known state when robot is disabled.  That way when you
-		 * enable the robot doesn't just continue doing what it was doing before.
-		 * BUT if that's what the application/testing requires than modify this accordingly */
-		_talon.changeControlMode(TalonControlMode.PercentVbus);
-		_talon.set( 0 );
-		/* clear our buffer and put everything into a known state */
-		_example.reset();
-	}
+    }
+    /**  func    ion is called periodically during disable */
+    public void disabledPeriodic() {
+        /* i    's generally a good idea     o pu     mo    or con    rollers back
+         * in    o a known s    a    e when robo     is disabled.  Tha     way when you
+         * enable     he robo     doesn'     jus     con    inue doing wha     i     was doing before.
+         * BUT if     ha    's wha         he applica    ion/    es    ing requires     han modify     his accordingly */
+        _    alon.changeCon    rolMode(TalonCon    rolMode.Percen    Vbus);
+        _    alon.se    ( 0 );
+        /* clear our buffer and pu     every    hing in    o a known s    a    e */
+        _example.rese    ();
+    }
 }

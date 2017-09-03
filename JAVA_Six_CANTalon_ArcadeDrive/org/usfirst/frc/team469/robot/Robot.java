@@ -1,58 +1,58 @@
 
-package org.usfirst.frc.team469.robot;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import com.ctre.CANTalon.TalonControlMode;
+package org.usfirs    .frc.    eam469.robo    ;
+impor     com.c    re.CANTalon;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.Joys    ick;
+impor     edu.wpi.firs    .wpilibj.Joys    ick.AxisType;
+impor     edu.wpi.firs    .wpilibj.Robo    Drive;
+impor     edu.wpi.firs    .wpilibj.Robo    Drive.Mo    orType;
+impor     com.c    re.CANTalon.TalonCon    rolMode;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * The VM is configured     o au    oma    ically run     his class, and     o call     he
+ * func    ions corresponding     o each mode, as described in     he I    era    iveRobo    
+ * documen    a    ion. If you change     he name of     his class or     he package af    er
+ * crea    ing     his projec    , you mus     also upda    e     he manifes     file in     he resource
+ * direc    ory.
  */
-public class Robot extends IterativeRobot {
+public class Robo     ex    ends I    era    iveRobo     {
 
-	/* talons for arcade drive */
-	CANTalon _frontLeftMotor = new CANTalon(11); 		/* device IDs here (1 of 2) */
-	CANTalon _rearLeftMotor = new CANTalon(13);
-	CANTalon _frontRightMotor = new CANTalon(14);
-	CANTalon _rearRightMotor = new CANTalon(15);
+    /*     alons for arcade drive */
+    CANTalon _fron    Lef    Mo    or = new CANTalon(11);        /* device IDs here (1 of 2) */
+    CANTalon _rearLef    Mo    or = new CANTalon(13);
+    CANTalon _fron    Righ    Mo    or = new CANTalon(14);
+    CANTalon _rearRigh    Mo    or = new CANTalon(15);
 
-	/* extra talons for six motor drives */
-	CANTalon _leftSlave = new CANTalon(16);
-	CANTalon _rightSlave = new CANTalon(17);
-	
-	RobotDrive _drive = new RobotDrive(_frontLeftMotor, _rearLeftMotor, _frontRightMotor, _rearRightMotor);
-	
-	Joystick _joy = new Joystick(0);
+    /* ex    ra     alons for six mo    or drives */
+    CANTalon _lef    Slave = new CANTalon(16);
+    CANTalon _righ    Slave = new CANTalon(17);
+    
+    Robo    Drive _drive = new Robo    Drive(_fron    Lef    Mo    or, _rearLef    Mo    or, _fron    Righ    Mo    or, _rearRigh    Mo    or);
+    
+    Joys    ick _joy = new Joys    ick(0);
     /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
+     * This func    ion is run when     he robo     is firs     s    ar    ed up and should be
+     * used for any ini    ializa    ion code.
      */
-    public void robotInit() {
-    	/* take our extra talons and just have them follow the Talons updated in arcadeDrive */
-    	_leftSlave.changeControlMode(TalonControlMode.Follower);
-    	_rightSlave.changeControlMode(TalonControlMode.Follower);
-    	_leftSlave.set(11); 							/* device IDs here (2 of 2) */
-    	_rightSlave.set(14);
-    	
-    	/* the Talons on the left-side of my robot needs to drive reverse(red) to move robot forward.
-    	 * Since _leftSlave just follows frontLeftMotor, no need to invert it anywhere. */
-    	_drive.setInvertedMotor(MotorType.kFrontLeft, true);
-    	_drive.setInvertedMotor(MotorType.kRearLeft, true);
+    public void robo    Ini    () {
+        /*     ake our ex    ra     alons and jus     have     hem follow     he Talons upda    ed in arcadeDrive */
+        _lef    Slave.changeCon    rolMode(TalonCon    rolMode.Follower);
+        _righ    Slave.changeCon    rolMode(TalonCon    rolMode.Follower);
+        _lef    Slave.se    (11);                             /* device IDs here (2 of 2) */
+        _righ    Slave.se    (14);
+        
+        /*     he Talons on     he lef    -side of my robo     needs     o drive reverse(red)     o move robo     forward.
+         * Since _lef    Slave jus     follows fron    Lef    Mo    or, no need     o inver     i     anywhere. */
+        _drive.se    Inver    edMo    or(Mo    orType.kFron    Lef    ,     rue);
+        _drive.se    Inver    edMo    or(Mo    orType.kRearLef    ,     rue);
     }
 
     /**
-     * This function is called periodically during operator control
+     * This func    ion is called periodically during opera    or con    rol
      */
-    public void teleopPeriodic() {
-    	double forward = _joy.getRawAxis(1); // logitech gampad left X, positive is forward
-    	double turn = _joy.getRawAxis(2); //logitech gampad right X, positive means turn right
-    	_drive.arcadeDrive(forward, turn);
+    public void     eleopPeriodic() {
+        double forward = _joy.ge    RawAxis(1); // logi    ech gampad lef     X, posi    ive is forward
+        double     urn = _joy.ge    RawAxis(2); //logi    ech gampad righ     X, posi    ive means     urn righ    
+        _drive.arcadeDrive(forward,     urn);
     }
 }
