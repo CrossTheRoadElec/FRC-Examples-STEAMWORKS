@@ -7622,14 +7622,14 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[FMax]	20
-[Fudge Factor]	1
-[Bounce]	0
-[CFM]	0.00001
-[Lo Stop]	-Inf
-[Hi Stop]	Inf
-[Stop ERP]	0.6
-[Stop CFM]	0.00001</Val>
+<Val>[FMax] 20
+[Fudge Factor]  1
+[Bounce]    0
+[CFM]   0.00001
+[Lo Stop]   -Inf
+[Hi Stop]   Inf
+[Stop ERP]  0.6
+[Stop CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -7747,14 +7747,14 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[FMax]	20
-[Fudge Factor]	1
-[Bounce]	0
-[CFM]	0.00001
-[Lo Stop]	-Inf
-[Hi Stop]	Inf
-[Stop ERP]	0.6
-[Stop CFM]	0.00001</Val>
+<Val>[FMax] 20
+[Fudge Factor]  1
+[Bounce]    0
+[CFM]   0.00001
+[Lo Stop]   -Inf
+[Hi Stop]   Inf
+[Stop ERP]  0.6
+[Stop CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -7872,14 +7872,14 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[FMax]	20
-[Fudge Factor]	1
-[Bounce]	0
-[CFM]	0.00001
-[Lo Stop]	-Inf
-[Hi Stop]	Inf
-[Stop ERP]	0.6
-[Stop CFM]	0.00001</Val>
+<Val>[FMax] 20
+[Fudge Factor]  1
+[Bounce]    0
+[CFM]   0.00001
+[Lo Stop]   -Inf
+[Hi Stop]   Inf
+[Stop ERP]  0.6
+[Stop CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -7997,14 +7997,14 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[FMax]	20
-[Fudge Factor]	1
-[Bounce]	0
-[CFM]	0.00001
-[Lo Stop]	-Inf
-[Hi Stop]	Inf
-[Stop ERP]	0.6
-[Stop CFM]	0.00001</Val>
+<Val>[FMax] 20
+[Fudge Factor]  1
+[Bounce]    0
+[CFM]   0.00001
+[Lo Stop]   -Inf
+[Hi Stop]   Inf
+[Stop ERP]  0.6
+[Stop CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8122,7 +8122,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8240,7 +8240,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8358,7 +8358,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8476,7 +8476,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8594,7 +8594,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8712,14 +8712,14 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[FMax]	2.5
-[Fudge Factor]	0.1
-[Bounce]	0
-[CFM]	0.001
-[Lo Stop]	-Inf
-[Hi Stop]	Inf
-[Stop ERP]	0.8
-[Stop CFM]	0.001</Val>
+<Val>[FMax] 2.5
+[Fudge Factor]  0.1
+[Bounce]    0
+[CFM]   0.001
+[Lo Stop]   -Inf
+[Hi Stop]   Inf
+[Stop ERP]  0.8
+[Stop CFM]  0.001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8837,7 +8837,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -8955,7 +8955,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -9073,7 +9073,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>
@@ -9191,7 +9191,7 @@
 </Array>
 <String>
 <Name>Parameters</Name>
-<Val>[CFM]	0.00001</Val>
+<Val>[CFM]  0.00001</Val>
 </String>
 <U16>
 <Name>Draw Mode</Name>

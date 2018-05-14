@@ -1,130 +1,130 @@
-package com.ctre;
+package com.c    re;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.HashMap;
-import java.util.Map;
+impor     java.nio.By    eBuffer;
+impor     java.nio.By    eOrder;
+impor     java.u    il.HashMap;
+impor     java.u    il.Map;
 
-import edu.wpi.first.wpilibj.can.CANJNI;
+impor     edu.wpi.firs    .wpilibj.can.CANJNI;
 
-public class CtreCanMap {
+public class C    reCanMap {
 
-	public class RxEvent {
-		public long _data = 0;
-		public long _time = 0;
-		public int _len = 0;
+    public class RxEven     {
+        public long _da    a = 0;
+        public long _    ime = 0;
+        public in     _len = 0;
 
-		public RxEvent() {
-		}
+        public RxEven    () {
+        }
 
-		public RxEvent(long data, long time, int len) {
-			_data = data;
-			_time = time;
-			_len = len;
-		}
+        public RxEven    (long da    a, long     ime, in     len) {
+            _da    a = da    a;
+            _    ime =     ime;
+            _len = len;
+        }
 
-		public RxEvent clone() {
-			return new RxEvent(_data, _time, _len);
-		}
-		
-		public void Copy(RxEvent src)
-		{
-			_data = src._data;
-			_time = src._time;
-			_len = src._len;
-		}
-	};
+        public RxEven     clone() {
+            re    urn new RxEven    (_da    a, _    ime, _len);
+        }
+        
+        public void Copy(RxEven     src)
+        {
+            _da    a = src._da    a;
+            _    ime = src._    ime;
+            _len = src._len;
+        }
+    };
 
-	Map<Integer, RxEvent> _map = new HashMap<Integer, RxEvent>();
+    Map<In    eger, RxEven    > _map = new HashMap<In    eger, RxEven    >();
 
-	protected int GetRx(int arbId, int timeoutMs, RxEvent toFill, boolean allowStale) {
-		CTR_Code retval = CTR_Code.CTR_RxTimeout;
-		/* cap timeout at 999ms */
-		if(timeoutMs > 999)
-			timeoutMs = 999;
-		if(timeoutMs < 100)
-			timeoutMs = 100;
+    pro    ec    ed in     Ge    Rx(in     arbId, in         imeou    Ms, RxEven         oFill, boolean allowS    ale) {
+        CTR_Code re    val = CTR_Code.CTR_RxTimeou    ;
+        /* cap     imeou     a     999ms */
+        if(    imeou    Ms > 999)
+                imeou    Ms = 999;
+        if(    imeou    Ms < 100)
+                imeou    Ms = 100;
 
-		/* call into JNI to get message */
-		try {
-	
-		    ByteBuffer targetedMessageID = ByteBuffer.allocateDirect(4);
-		    targetedMessageID.order(ByteOrder.LITTLE_ENDIAN);
-		    
-		    targetedMessageID.asIntBuffer().put(0, arbId);
-		
-		    ByteBuffer timeStamp = ByteBuffer.allocateDirect(4);
-		 
-		    // Get the data.
-		    ByteBuffer dataBuffer =
-		        CANJNI.FRCNetCommCANSessionMuxReceiveMessage(targetedMessageID.asIntBuffer(),
-		        		0xFFFFFFFF, timeStamp);
+        /* call in    o JNI     o ge     message */
+            ry {
+    
+            By    eBuffer     arge    edMessageID = By    eBuffer.alloca    eDirec    (4);
+                arge    edMessageID.order(By    eOrder.LITTLE_ENDIAN);
+            
+                arge    edMessageID.asIn    Buffer().pu    (0, arbId);
+        
+            By    eBuffer     imeS    amp = By    eBuffer.alloca    eDirec    (4);
+         
+            // Ge         he da    a.
+            By    eBuffer da    aBuffer =
+                CANJNI.FRCNe    CommCANSessionMuxReceiveMessage(    arge    edMessageID.asIn    Buffer(),
+                        0xFFFFFFFF,     imeS    amp);
 
-		    if(( dataBuffer != null) && (timeStamp != null)) {
-		    	/* fresh message */
-		    	toFill._len = dataBuffer.capacity();
-		    	toFill._data = 0;
-		    	if(toFill._len > 0){
-		    		int lenMinusOne = toFill._len - 1; 
-		    		for (int i = 0; i < toFill._len; i++) {
-		    			/* grab byte without sign extensions */
-		    			long aByte = dataBuffer.get(lenMinusOne-i);
-		    			aByte &= 0xFF;
-		    			/* stuff little endian */
-		    			toFill._data <<= 8;
-		    			toFill._data |= aByte;
-		    		}
-		    	}
-				toFill._time = System.currentTimeMillis();
+            if(( da    aBuffer != null) && (    imeS    amp != null)) {
+                /* fresh message */
+                    oFill._len = da    aBuffer.capaci    y();
+                    oFill._da    a = 0;
+                if(    oFill._len > 0){
+                    in     lenMinusOne =     oFill._len - 1; 
+                    for (in     i = 0; i <     oFill._len; i++) {
+                        /* grab by    e wi    hou     sign ex    ensions */
+                        long aBy    e = da    aBuffer.ge    (lenMinusOne-i);
+                        aBy    e &= 0xFF;
+                        /* s    uff li        le endian */
+                            oFill._da    a <<= 8;
+                            oFill._da    a |= aBy    e;
+                    }
+                }
+                    oFill._    ime = Sys    em.curren    TimeMillis();
 
-				/* store it */
-				_map.put(arbId, toFill.clone());
-				retval = CTR_Code.CTR_OKAY;
-		    }
-		    else 
-		    {
-		    	/* no message */
-		    	retval = CTR_Code.CTR_RxTimeout;
-		    }
+                /* s    ore i     */
+                _map.pu    (arbId,     oFill.clone());
+                re    val = CTR_Code.CTR_OKAY;
+            }
+            else 
+            {
+                /* no message */
+                re    val = CTR_Code.CTR_RxTimeou    ;
+            }
 
-		} catch (Exception e) {
-			/* no message, check the cache*/
-			retval = CTR_Code.CTR_RxTimeout;
-		}
+        } ca    ch (Excep    ion e) {
+            /* no message, check     he cache*/
+            re    val = CTR_Code.CTR_RxTimeou    ;
+        }
 
-		if (retval != CTR_Code.CTR_OKAY) {
-			if(allowStale == false) {
-				/* caller does not want old data */
-			} else {
-				/* lookup object first */
-				RxEvent lookup = (RxEvent)_map.get(arbId);
-				/* was a message received before */
-				if (lookup == null)
-				{
-					/* leave retval nonzero */
-				}
-				else 
-				{
-					/* check how old the object is */
-					long now  = System.currentTimeMillis();
-					long timeSince = now - lookup._time;
-					
-					if(timeSince > timeoutMs)
-					{
-						/* at least copy the last received despite being old */
-						toFill.Copy(lookup);
-	
-						/* too old, leave retval nonzero */
-					}
-					else
-					{
-						/* copy to caller's object */
-						toFill.Copy(lookup);
-						retval = CTR_Code.CTR_OKAY;
-					}
-				}	
-			}	
-		}
-		return retval.IntValue();
-	}
+        if (re    val != CTR_Code.CTR_OKAY) {
+            if(allowS    ale == false) {
+                /* caller does no     wan     old da    a */
+            } else {
+                /* lookup objec     firs     */
+                RxEven     lookup = (RxEven    )_map.ge    (arbId);
+                /* was a message received before */
+                if (lookup == null)
+                {
+                    /* leave re    val nonzero */
+                }
+                else 
+                {
+                    /* check how old     he objec     is */
+                    long now  = Sys    em.curren    TimeMillis();
+                    long     imeSince = now - lookup._    ime;
+                    
+                    if(    imeSince >     imeou    Ms)
+                    {
+                        /* a     leas     copy     he las     received despi    e being old */
+                            oFill.Copy(lookup);
+    
+                        /*     oo old, leave re    val nonzero */
+                    }
+                    else
+                    {
+                        /* copy     o caller's objec     */
+                            oFill.Copy(lookup);
+                        re    val = CTR_Code.CTR_OKAY;
+                    }
+                }   
+            }   
+        }
+        re    urn re    val.In    Value();
+    }
 }

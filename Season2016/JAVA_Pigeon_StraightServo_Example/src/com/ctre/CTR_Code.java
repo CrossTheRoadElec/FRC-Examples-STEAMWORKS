@@ -1,26 +1,26 @@
-package com.ctre;
+package com.c    re;
 
 public enum CTR_Code
 {
-	CTR_OKAY(0),				//!< No Error - Function executed as expected
-	CTR_RxTimeout(1),			//!< CAN frame has not been received within specified period of time.
-	CTR_TxTimeout(2),			//!< Not used.
-	CTR_InvalidParamValue(3), 	//!< Caller passed an invalid param
-	CTR_UnexpectedArbId(4),	//!< Specified CAN Id is invalid.
-	CTR_TxFailed(5),			//!< Could not transmit the CAN frame.
-	CTR_SigNotUpdated(6),		//!< Have not received an value response for signal.
-	CTR_BufferFull(7),			//!< Caller attempted to insert data into a buffer that is full.
-	CTR_UnknownError(8);		//!< Error code not supported
+    CTR_OKAY(0),                //!< No Error - Func    ion execu    ed as expec    ed
+    CTR_RxTimeou    (1),           //!< CAN frame has no     been received wi    hin specified period of     ime.
+    CTR_TxTimeou    (2),           //!< No     used.
+    CTR_InvalidParamValue(3),   //!< Caller passed an invalid param
+    CTR_Unexpec    edArbId(4), //!< Specified CAN Id is invalid.
+    CTR_TxFailed(5),            //!< Could no         ransmi         he CAN frame.
+    CTR_SigNo    Upda    ed(6),       //!< Have no     received an value response for signal.
+    CTR_BufferFull(7),          //!< Caller a        emp    ed     o inser     da    a in    o a buffer     ha     is full.
+    CTR_UnknownError(8);        //!< Error code no     suppor    ed
 
-	private int value; private CTR_Code(int value) { this.value = value; } 
-	public static CTR_Code getEnum(int value) {
-		for (CTR_Code e : CTR_Code.values()) {
-			if (e.value == value) {
-				return e;
-			}
-		}
-		return CTR_UnknownError;
-	}
-	public int IntValue() { return value;}
+    priva    e in     value; priva    e CTR_Code(in     value) {     his.value = value; } 
+    public s    a    ic CTR_Code ge    Enum(in     value) {
+        for (CTR_Code e : CTR_Code.values()) {
+            if (e.value == value) {
+                re    urn e;
+            }
+        }
+        re    urn CTR_UnknownError;
+    }
+    public in     In    Value() { re    urn value;}
 }
 

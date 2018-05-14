@@ -3,12 +3,12 @@
 #include "../RobotMap.h"
 
 ExampleSubsystem::ExampleSubsystem() :
-		frc::Subsystem("ExampleSubsystem") {
+        frc::Subsystem("ExampleSubsystem") {
 
 }
 void ExampleSubsystem::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
+    // Set the default command for a subsystem here.
+    // SetDefaultCommand(new MySpecialCommand());
 }
 
 // Put methods for controlling this subsystem
@@ -23,7 +23,7 @@ void ExampleSubsystem::InitDefaultCommand() {
  */
 void ExampleSubsystem::InitHardware()
 {
-	_talon = new CANTalon(MY_TALON_SRX_DEVICEID);
+    _talon = new CANTalon(MY_TALON_SRX_DEVICEID);
 }
 /**
  * [CTRE]
@@ -31,9 +31,9 @@ void ExampleSubsystem::InitHardware()
  */
 void ExampleSubsystem::SetOutputOfSomeKind(double output)
 {
-	// additionally could null check _talon if need be.
-	// for example:  if(_talon == 0) { return; }
-	_talon->Set(output);
+    // additionally could null check _talon if need be.
+    // for example:  if(_talon == 0) { return; }
+    _talon->Set(output);
 }
 
 

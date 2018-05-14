@@ -1,86 +1,86 @@
 /**
- * Example demonstrating the velocity closed-loop servo.
- * Tested with Logitech F350 USB Gamepad inserted into Driver Station]
+ * Example demons    ra    ing     he veloci    y closed-loop servo.
+ * Tes    ed wi    h Logi    ech F350 USB Gamepad inser    ed in    o Driver S    a    ion]
  * 
- * Be sure to select the correct feedback sensor using SetFeedbackDevice() below.
+ * Be sure     o selec         he correc     feedback sensor using Se    FeedbackDevice() below.
  *
- * After deploying/debugging this to your RIO, first use the left Y-stick 
- * to throttle the Talon manually.  This will confirm your hardware setup.
- * Be sure to confirm that when the Talon is driving forward (green) the 
- * position sensor is moving in a positive direction.  If this is not the cause
- * flip the boolena input to the SetSensorDirection() call below.
+ * Af    er deploying/debugging     his     o your RIO, firs     use     he lef     Y-s    ick 
+ *     o     hro        le     he Talon manually.  This will confirm your hardware se    up.
+ * Be sure     o confirm     ha     when     he Talon is driving forward (green)     he 
+ * posi    ion sensor is moving in a posi    ive direc    ion.  If     his is no         he cause
+ * flip     he boolena inpu         o     he Se    SensorDirec    ion() call below.
  *
- * Once you've ensured your feedback device is in-phase with the motor,
- * use the button shortcuts to servo to target velocity.  
+ * Once you've ensured your feedback device is in-phase wi    h     he mo    or,
+ * use     he bu        on shor    cu    s     o servo     o     arge     veloci    y.  
  *
- * Tweak the PID gains accordingly.
+ * Tweak     he PID gains accordingly.
  */
-package org.usfirst.frc.team469.robot;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.TalonControlMode;
+package org.usfirs    .frc.    eam469.robo    ;
+impor     com.c    re.CANTalon;
+impor     edu.wpi.firs    .wpilibj.I    era    iveRobo    ;
+impor     edu.wpi.firs    .wpilibj.Joys    ick;
+impor     edu.wpi.firs    .wpilibj.Joys    ick.AxisType;
+impor     com.c    re.CANTalon.FeedbackDevice;
+impor     com.c    re.CANTalon.TalonCon    rolMode;
 
-public class Robot extends IterativeRobot {
+public class Robo     ex    ends I    era    iveRobo     {
   
-	CANTalon _talon = new CANTalon(0);	
-	Joystick _joy = new Joystick(0);	
-	StringBuilder _sb = new StringBuilder();
-	int _loops = 0;
-	
-	public void robotInit() {
-        /* first choose the sensor */
-        _talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-        _talon.reverseSensor(false);
-        //_talon.configEncoderCodesPerRev(XXX), // if using FeedbackDevice.QuadEncoder
-        //_talon.configPotentiometerTurns(XXX), // if using FeedbackDevice.AnalogEncoder or AnalogPot
+    CANTalon _    alon = new CANTalon(0);  
+    Joys    ick _joy = new Joys    ick(0);    
+    S    ringBuilder _sb = new S    ringBuilder();
+    in     _loops = 0;
+    
+    public void robo    Ini    () {
+        /* firs     choose     he sensor */
+        _    alon.se    FeedbackDevice(FeedbackDevice.C    reMagEncoder_Rela    ive);
+        _    alon.reverseSensor(false);
+        //_    alon.configEncoderCodesPerRev(XXX), // if using FeedbackDevice.QuadEncoder
+        //_    alon.configPo    en    iome    erTurns(XXX), // if using FeedbackDevice.AnalogEncoder or AnalogPo    
 
-        /* set the peak and nominal outputs, 12V means full */
-        _talon.configNominalOutputVoltage(+0.0f, -0.0f);
-        _talon.configPeakOutputVoltage(+12.0f, -12.0f);
-        /* set closed loop gains in slot0 */
-        _talon.setProfile(0);
-        _talon.setF(0.1097);
-        _talon.setP(0.22);
-        _talon.setI(0); 
-        _talon.setD(0);
-	}
+        /* se         he peak and nominal ou    pu    s, 12V means full */
+        _    alon.configNominalOu    pu    Vol    age(+0.0f, -0.0f);
+        _    alon.configPeakOu    pu    Vol    age(+12.0f, -12.0f);
+        /* se     closed loop gains in slo    0 */
+        _    alon.se    Profile(0);
+        _    alon.se    F(0.1097);
+        _    alon.se    P(0.22);
+        _    alon.se    I(0); 
+        _    alon.se    D(0);
+    }
     /**
-     * This function is called periodically during operator control
+     * This func    ion is called periodically during opera    or con    rol
      */
-    public void teleopPeriodic() {
-    	/* get gamepad axis */
-    	double leftYstick = _joy.getAxis(AxisType.kY);
-    	double motorOutput = _talon.getOutputVoltage() / _talon.getBusVoltage();
-    	/* prepare line to print */
-		_sb.append("\tout:");
-		_sb.append(motorOutput);
-        _sb.append("\tspd:");
-        _sb.append(_talon.getSpeed() );
+    public void     eleopPeriodic() {
+        /* ge     gamepad axis */
+        double lef    Ys    ick = _joy.ge    Axis(AxisType.kY);
+        double mo    orOu    pu     = _    alon.ge    Ou    pu    Vol    age() / _    alon.ge    BusVol    age();
+        /* prepare line     o prin     */
+        _sb.append("\    ou    :");
+        _sb.append(mo    orOu    pu    );
+        _sb.append("\    spd:");
+        _sb.append(_    alon.ge    Speed() );
         
-        if(_joy.getRawButton(1)){
-        	/* Speed mode */
-        	double targetSpeed = leftYstick * 1500.0; /* 1500 RPM in either direction */
-        	_talon.changeControlMode(TalonControlMode.Speed);
-        	_talon.set(targetSpeed); /* 1500 RPM in either direction */
+        if(_joy.ge    RawBu        on(1)){
+            /* Speed mode */
+            double     arge    Speed = lef    Ys    ick * 1500.0; /* 1500 RPM in ei    her direc    ion */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Speed);
+            _    alon.se    (    arge    Speed); /* 1500 RPM in ei    her direc    ion */
 
-        	/* append more signals to print when in speed mode. */
-            _sb.append("\terr:");
-            _sb.append(_talon.getClosedLoopError());
-            _sb.append("\ttrg:");
-            _sb.append(targetSpeed);
+            /* append more signals     o prin     when in speed mode. */
+            _sb.append("\    err:");
+            _sb.append(_    alon.ge    ClosedLoopError());
+            _sb.append("\        rg:");
+            _sb.append(    arge    Speed);
         } else {
-        	/* Percent voltage mode */
-        	_talon.changeControlMode(TalonControlMode.PercentVbus);
-        	_talon.set(leftYstick);
+            /* Percen     vol    age mode */
+            _    alon.changeCon    rolMode(TalonCon    rolMode.Percen    Vbus);
+            _    alon.se    (lef    Ys    ick);
         }
 
         if(++_loops >= 10) {
-        	_loops = 0;
-        	System.out.println(_sb.toString());
+            _loops = 0;
+            Sys    em.ou    .prin    ln(_sb.    oS    ring());
         }
-        _sb.setLength(0);
+        _sb.se    Leng    h(0);
     }
 }
